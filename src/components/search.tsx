@@ -41,7 +41,6 @@ export default function SearchInput({ paramName = 'search', ...props }: InputPro
             }
             placeholder="Search"
             onChange={onSearch}
-            className="px-5"
             classNames={{
                 inputWrapper: [
                     'shadow-none border-2 border-gray-500 rounded-full py-6',

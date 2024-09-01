@@ -2,6 +2,7 @@ import TopNavbar from '@/layout/top-navbar';
 import BottomNavbar from '@/layout/bottom-navbar';
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/home';
+import Hotels from './pages/hotels';
 
 function App() {
     return (
@@ -9,9 +10,10 @@ function App() {
             <div className="w-full min-h-screen max-w-[550px] bg-black flex flex-col gap-3">
                 <TopNavbar />
 
-                <main className="h-full">
+                <main className="h-full text-white px-5">
                     <Routes>
                         <Route path="/" element={<Home />} />
+                        <Route path="/hotels" element={<Hotels />} />
                     </Routes>
                 </main>
 
