@@ -7,7 +7,9 @@
         "dev": "vite",
         "build": "tsc -b && vite build",
         "lint": "eslint .",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "pretty": "prettier --write \"./**/*.{ts,tsx,js,jsx,json,scss,css}\"",
+        "configure-husky": "npx husky install && npx husky add .husky/pre-commit \"npx --no-install lint-staged\""
     },
     "lint-staged": {
         "**/*.{ts,tsx,js,jsx,json,scss,css}": [
