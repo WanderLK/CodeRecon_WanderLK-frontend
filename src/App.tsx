@@ -5,8 +5,8 @@ import Home from './pages/home';
 
 function App() {
     return (
-        <div className="flex justify-center bg-[#28282B] w-full overflow-x-hidden min-h-screen">
-            <div className="w-full min-h-screen max-w-[550px] bg-black flex flex-col gap-3 relative">
+        <div className="flex justify-center bg-[#28282B] w-full min-h-screen relative">
+            <div className="w-full min-h-screen max-w-[550px] bg-black flex flex-col gap-3">
                 <TopNavbar />
 
                 <Routes>

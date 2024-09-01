@@ -1,9 +1,9 @@
 import Button from '@/components/button';
 import { Avatar } from '@nextui-org/react';
 
-export default function Navbar() {
+export default function TopNavbar() {
     return (
-        <div className="flex justify-between pt-10 px-6 pb-3">
+        <div className="flex justify-between pt-10 px-6 pb-3 sticky top-0 bg-black z-10">
             <Button isIconOnly variant="light">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"

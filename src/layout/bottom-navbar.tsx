@@ -1,9 +1,9 @@
 import Button from '@/components/button';
 import NavLink from '@/components/nav-link';
 
-export default function Navbar() {
+export default function BottomNavbar() {
     return (
-        <div className="flex justify-between p-3 sticky bottom-4 bg-theme rounded-full mx-4">
+        <div className="flex justify-between p-3 sticky bottom-4 bg-theme rounded-full mx-4 z-10">
             <NavLink to="/">
                 <Button
                     isIconOnly
