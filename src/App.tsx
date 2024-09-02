@@ -4,6 +4,7 @@ import { Outlet, Route, Routes } from 'react-router-dom';
 const Home = loadable(() => import('./pages/home'));
 const Hotels = loadable(() => import('./pages/hotels'));
 const Hotel = loadable(() => import('./pages/hotels/hotel'));
+const Visa = loadable(() => import('./pages/visa/index'));
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                             <Route path="" element={<Hotels />} />
                             <Route path=":id" element={<Hotel />} />
                         </Route>
+                        <Route path="/visa" element={<Visa />} />
                     </Routes>
                 </main>
 
