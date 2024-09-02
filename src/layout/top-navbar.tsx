@@ -1,9 +1,18 @@
 import Button from '@/components/button';
 import { Avatar } from '@nextui-org/react';
 
-export default function TopNavbar() {
+interface TopNavbarProps {
+    transparent?: boolean;
+    showLogo?: boolean;
+    showSearch?: boolean;
+}
+
+export default function TopNavbar({ transparent, showLogo = true }: TopNavbarProps) {
     return (
-        <div className="flex justify-between pt-10 px-6 pb-3 sticky top-0 bg-black z-10">
+        <div
+            className={`flex justify-between pt-10 px-6 pb-3 sticky top-0 z-50 ${
+                transparent ? 'bg-transparent' : 'bg-black'
+            }`}>
             <Button isIconOnly variant="light">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -17,7 +26,7 @@ export default function TopNavbar() {
                     />
                 </svg>
             </Button>
-            <img className="max-w-32 w-full" src="/images/logo.svg" alt="Logo" />
+            {showLogo && <img className="max-w-32 w-full" src="/images/logo.svg" alt="Logo" />}
             <Avatar />
         </div>
     );

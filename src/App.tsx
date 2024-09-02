@@ -1,19 +1,21 @@
-import TopNavbar from '@/layout/top-navbar';
 import BottomNavbar from '@/layout/bottom-navbar';
-import { Route, Routes } from 'react-router-dom';
-import Home from './pages/home';
-import Hotels from './pages/hotels';
+import loadable from '@loadable/component';
+import { Outlet, Route, Routes } from 'react-router-dom';
+const Home = loadable(() => import('./pages/home'));
+const Hotels = loadable(() => import('./pages/hotels'));
+const Hotel = loadable(() => import('./pages/hotels/hotel'));
 
 function App() {
     return (
         <div className="flex justify-center bg-[#28282B] w-full min-h-screen">
-            <div className="w-full min-h-screen max-w-[550px] bg-black flex flex-col gap-3">
-                <TopNavbar />
-
-                <main className="h-full text-white px-5">
+            <div className="relative w-full min-h-screen max-w-[550px] bg-black flex flex-col gap-3">
+                <main className="h-full text-white">
                     <Routes>
                         <Route path="/" element={<Home />} />
-                        <Route path="/hotels" element={<Hotels />} />
+                        <Route path="hotels" element={<Outlet />}>
+                            <Route path="" element={<Hotels />} />
+                            <Route path=":id" element={<Hotel />} />
+                        </Route>
                     </Routes>
                 </main>
 

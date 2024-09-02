@@ -1,49 +1,34 @@
-import Button from '@/components/button';
+import PlaceCard from '@/components/cards/place';
 import SearchInput from '@/components/search';
+import TopNavbar from '@/layout/top-navbar';
+import { config } from 'react-spring';
 // @ts-ignore
-import ReactCardCarousel from 'react-card-carousel';
+import { useSpringCarousel } from 'react-spring-carousel';
 
 export default function Home() {
+    const { carouselFragment } = useSpringCarousel({
+        itemsPerSlide: 1,
+        withLoop: true,
+        startEndGutter: 40,
+        gutter: 24,
+        withThumbs: false,
+        springConfig: config.wobbly,
+        items: Array.from({ length: 5 }).map((_, i: number) => {
+            return {
+                id: i,
+                renderItem: <PlaceCard />
+            };
+        })
+    });
+
     return (
-        <div className="flex flex-col gap-4 relative min-h-[80vh]">
-            <SearchInput />
-
-            <div className="relative h-[80vh]">
-                <ReactCardCarousel>
-                    {Array.from({ length: 10 }).map((_, i: number) => {
-                        return (
-                            <div
-                                key={i}
-                                className="w-[336px] h-[550px] relative bg-black flex flex-col items-center select-none">
-                                <img
-                                    src="https://picsum.photos/400/550"
-                                    alt="Sample"
-                                    className="object-cover w-full h-full rounded-2xl select-none"
-                                />
-
-                                <div
-                                    className="text-white absolute top-0 left-0 px-5 pt-5 pb-12 text-center h-full flex flex-col justify-end"
-                                    style={{
-                                        background:
-                                            'linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0,0,0,0.4351514287355567) 80%)'
-                                    }}>
-                                    <h1 className="text-inherit font-bold text-2xl mb-2 select-none">
-                                        Negombo
-                                    </h1>
-                                    <p className="text-inherit select-none">
-                                        A coastal city known for its sandy beaches and bustling fish
-                                        market
-                                    </p>
-                                </div>
-
-                                <Button className="bg-white text-black absolute bottom-0 translate-y-5 rounded-full">
-                                    Explore
-                                </Button>
-                            </div>
-                        );
-                    })}
-                </ReactCardCarousel>
+        <div className="flex flex-col gap-4">
+            <TopNavbar />
+            <div className="p-5">
+                <SearchInput />
             </div>
+
+            <div className="overflow-x-hidden pb-6 pt-4">{carouselFragment}</div>
         </div>
     );
 }
