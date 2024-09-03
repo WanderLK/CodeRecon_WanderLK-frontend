@@ -1,18 +1,25 @@
 import Button from '@/components/button';
+import SearchInput from '@/components/search';
 import { Avatar } from '@nextui-org/react';
 
 interface TopNavbarProps {
     transparent?: boolean;
-    showLogo?: boolean;
+    hideLogo?: boolean;
     showSearch?: boolean;
+    className?: string;
 }
 
-export default function TopNavbar({ transparent, showLogo = true }: TopNavbarProps) {
+export default function TopNavbar({
+    transparent,
+    hideLogo = false,
+    showSearch = false,
+    className
+}: TopNavbarProps) {
     return (
         <div
-            className={`flex justify-between pt-10 px-6 pb-3 sticky top-0 z-50 ${
+            className={`flex justify-between gap-5 items-center pt-10 px-6 pb-3 ${
                 transparent ? 'bg-transparent' : 'bg-black'
-            }`}>
+            } ${className ? className : ''}`}>
             <Button isIconOnly variant="light">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -26,8 +33,9 @@ export default function TopNavbar({ transparent, showLogo = true }: TopNavbarPro
                     />
                 </svg>
             </Button>
-            {showLogo && <img className="max-w-32 w-full" src="/images/logo.svg" alt="Logo" />}
-            <Avatar />
+            {!hideLogo && <img className="max-w-32 w-full" src="/images/logo.svg" alt="Logo" />}
+            {showSearch && <SearchInput />}
+            <Avatar size="md" className="max-w-10 w-full" />
         </div>
     );
 }

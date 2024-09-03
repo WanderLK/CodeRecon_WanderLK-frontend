@@ -32,11 +32,11 @@ export default function Hotel() {
     });
 
     return (
-        <div className="flex flex-col gap-3">
-            <TopNavbar transparent />
+        <div className="flex flex-col gap-3 relative">
+            <TopNavbar transparent hideLogo className="absolute z-10 w-full" />
 
             {/* top content */}
-            <div className="w-full sticky top-0 z-[60]">
+            <div className="relative w-full">
                 <img
                     src="https://picsum.photos/400/550"
                     alt="Hotel"
@@ -47,7 +47,7 @@ export default function Hotel() {
                     className="text-white absolute top-0 left-0 px-5 pt-3 pb-5 text-left h-full flex flex-col justify-end gap-1 w-full"
                     style={{
                         background:
-                            'linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0,0,0,0.4351514287355567) 80%)'
+                            'linear-gradient(180deg, rgba(0,0,0,0.1) 10%, rgba(0,0,0,0.4351514287355567) 80%)'
                     }}>
                     <h1 className="text-inherit font-bold text-3xl mb-2 select-none">
                         Shangri-La Colombo
