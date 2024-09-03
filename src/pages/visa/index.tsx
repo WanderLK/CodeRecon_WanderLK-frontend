@@ -1,4 +1,6 @@
 import { Card, CardBody, Image, Button } from '@nextui-org/react';
+import { Link } from 'react-router-dom';
+import TopNavbar from '@/layout/top-navbar';
 
 export default function App() {
     let style = {
@@ -67,59 +69,74 @@ export default function App() {
     );
 
     return (
-        <div className="px-0 mt-2">
-            <Card
-                isBlurred
-                className="border-[1.127px] border-white border-opacity-50 rounded-3xl filter backdrop-blur-sm text-orange-100
-            max-w-[610px] w-full"
-                style={style}
-                shadow="sm">
-                <CardBody>
-                    <div className="grid grid-cols-12 gap-4 items-center justify-center">
-                        <div className="relative col-span-5">
-                            <Image
-                                alt="Visa Icon"
-                                className="object-cover px-2"
-                                shadow="none"
-                                src="/images/visa-icon.png"
-                                width="100%"
-                            />
-                        </div>
+        <div className="flex flex-col gap-4">
+            <TopNavbar />
+            <div className="px-0 mt-2">
+                <div className="px-6">
+                    <Card
+                        isBlurred
+                        className="border-[1.127px] border-white border-opacity-50 rounded-3xl filter backdrop-blur-sm text-orange-100
+                max-w-[610px] w-full"
+                        style={style}
+                        shadow="sm">
+                        <CardBody>
+                            <div className="grid grid-cols-12 gap-4 items-center justify-center">
+                                <div className="relative col-span-5">
+                                    <Image
+                                        alt="Visa Icon"
+                                        className="object-cover px-2"
+                                        shadow="none"
+                                        src="/images/visa-icon.png"
+                                        width="100%"
+                                    />
+                                </div>
 
-                        <div className="flex flex-col col-span-7">
-                            <div className="flex justify-between items-start py-3">
-                                <div className="flex flex-col gap-0 font-light">
-                                    <p className="text-[9px] opacity-70">Country</p>
-                                    <h1 className="text-sm">United Kingdom</h1>
+                                <div className="flex flex-col col-span-7">
+                                    <div className="flex justify-between items-start py-3">
+                                        <div className="flex flex-col gap-0 font-light">
+                                            <p className="text-[9px] opacity-70">Country</p>
+                                            <h1 className="text-sm">United Kingdom</h1>
 
-                                    <p className="text-[9px] opacity-70 mt-2">Destination</p>
-                                    <h1 className="text-sm">Sri Lanka</h1>
+                                            <p className="text-[9px] opacity-70 mt-2">
+                                                Destination
+                                            </p>
+                                            <h1 className="text-sm">Sri Lanka</h1>
 
-                                    <p className="text-[9px] opacity-70 mt-2">Expiry Date</p>
-                                    <h1 className="text-sm">Aug 28, 2024</h1>
+                                            <p className="text-[9px] opacity-70 mt-2">
+                                                Expiry Date
+                                            </p>
+                                            <h1 className="text-sm">Aug 28, 2024</h1>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </CardBody>
-            </Card>
+                        </CardBody>
+                    </Card>
+                </div>
 
-            <div className="flex justify-center w-4/5 mx-auto mt-16 flex-col gap-4">
-                <Button
-                    className="bg-white rounded-[30px] w-full font-medium text-xl py-7 px-2"
-                    startContent={FlightIcon}>
-                    Request Visa
-                </Button>
-                <Button
-                    className="bg-white rounded-[30px] w-full font-medium text-xl py-7 px-2"
-                    startContent={ExtendVisaIcon}>
-                    Extend Visa
-                </Button>
-                <Button
-                    className="bg-white rounded-[30px] w-full font-medium text-xl py-7 px-2"
-                    startContent={ExtendVisaIcon}>
-                    Visa Request Status
-                </Button>
+                <div className="flex justify-center w-4/5 mx-auto mt-12 flex-col gap-4">
+                    <Link to="/visa/request">
+                        <Button
+                            className="bg-white rounded-[30px] w-full font-medium text-xl py-7 px-2"
+                            startContent={FlightIcon}>
+                            Request Visa
+                        </Button>
+                    </Link>
+                    <Link to="/visa/extend">
+                        <Button
+                            className="bg-white rounded-[30px] w-full font-medium text-xl py-7 px-2"
+                            startContent={ExtendVisaIcon}>
+                            Extend Visa
+                        </Button>
+                    </Link>
+                    <Link to="/visa/status">
+                        <Button
+                            className="bg-white rounded-[30px] w-full font-medium text-xl py-7 px-2"
+                            startContent={ExtendVisaIcon}>
+                            Visa Request Status
+                        </Button>
+                    </Link>
+                </div>
             </div>
         </div>
     );
