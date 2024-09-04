@@ -1,6 +1,14 @@
 import { SetStateAction, useState } from 'react';
-import { Card, CardBody, Button, Select, SelectItem, Input, DatePicker } from '@nextui-org/react';
+import { Card, CardBody, Button, Image } from '@nextui-org/react';
 import TopNavbar from '@/layout/top-navbar';
+
+import Form from '@/components/form';
+import SubmitButton from '@/components/form/button';
+import FormInput from '@/components/form/input';
+import FormDropdown from '@/components/form/dropdown';
+import { CheckIcon } from '@/components/icons/check-icon';
+import { FieldArray, FormikValues } from 'formik';
+import * as Yup from 'yup';
 
 export default function App() {
     const steps = [
@@ -26,87 +34,94 @@ export default function App() {
         }
     ];
 
-    const [currentStep, setCurrentStep] = useState(0);
-    const [formCompleted, setFormCompleted] = useState(Array(steps.length).fill(false));
-    const [formData, setFormData] = useState<{
-        country: string;
-        visaType: string;
-        reason: string;
-        fullName: string;
-        dob: Date;
-        placeOfBirth: string;
-        countryOfBirth: string;
-        nationality: string;
-        sex: string;
-        maritalStatus: string;
-        documents: File[];
-    }>({
+    // const validationSchema = Yup.object().shape({
+    //     fullName: Yup.string().required('First Name is required'),
+    //     country: Yup.string().required('Country is required'),
+    //     visaType: Yup.string().required('Visa Type is required'),
+    //     reason: Yup.string().required('Reason is required'),
+    //     dob: Yup.string().required('Date of Birth is required'),
+    //     placeOfBirth: Yup.string().required('Place of Birth is required'),
+    //     countryOfBirth: Yup.string().required('Country of Birth is required')
+    // });
+
+    const section1ValidationSchema = Yup.object().shape({
+        fullName: Yup.string().required('First Name is required'),
+        country: Yup.string().required('Country is required'),
+        visaType: Yup.string().required('Visa Type is required'),
+        reason: Yup.string().required('Reason is required')
+    });
+
+    const section2ValidationSchema = Yup.object().shape({
+        fullName: Yup.string().required('First Name is required'),
+        dob: Yup.string().required('Date of Birth is required'),
+        placeOfBirth: Yup.string().required('Place of Birth is required'),
+        countryOfBirth: Yup.string().required('Country of Birth is required'),
+        nationality: Yup.string().required('Current Nationality is required'),
+        sex: Yup.string().required('Sex is required'),
+        maritalStatus: Yup.string().required('Marital Status is required')
+    });
+
+    const getValidationSchema = (step: number) => {
+        switch (step) {
+            case 0:
+                return section1ValidationSchema;
+            case 1:
+                return section2ValidationSchema;
+            default:
+                return Yup.object().shape({});
+        }
+    };
+
+    const initialValues = {
+        fullName: '',
         country: '',
         visaType: '',
         reason: '',
-        fullName: '',
-        dob: new Date(),
+        dob: '',
         placeOfBirth: '',
-        countryOfBirth: '',
-        nationality: '',
-        sex: '',
-        maritalStatus: '',
-        documents: []
-    });
-
-    const validateForm = (stepIndex: number) => {
-        const currentData = getCurrentFormData(stepIndex);
-
-        // check if not empty
-        return Object.values(currentData).every((value) => value !== '');
+        countryOfBirth: ''
     };
 
-    const getCurrentFormData = (stepIndex: number) => {
-        switch (stepIndex) {
-            case 0:
-                return {
-                    country: formData.country,
-                    visaType: formData.visaType,
-                    reason: formData.reason
-                };
-            case 1:
-                return {
-                    fullName: formData.fullName,
-                    dob: formData.dob,
-                    placeOfBirth: formData.placeOfBirth,
-                    countryOfBirth: formData.countryOfBirth,
-                    nationality: formData.nationality,
-                    sex: formData.sex,
-                    maritalStatus: formData.maritalStatus
-                };
-            case 2:
-                return { documents: formData.documents };
-            default:
-                return {};
+    const onSubmit = async (values: FormikValues) => {
+        console.log(values);
+        if (currentStep === steps.length - 1) {
+            // TODO submit the form
+            console.log('Form submitted');
+        } else {
+            nextStep();
+        }
+    };
+
+    const [currentStep, setCurrentStep] = useState(0);
+    const [currentImgSectionStep, setCurrentImgSectionStep] = useState(0);
+
+    const imgSectionSteps = 3;
+    const nextImgSectionStep = () => {
+        if (currentImgSectionStep < imgSectionSteps - 1) {
+            setCurrentImgSectionStep(currentImgSectionStep + 1);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    };
+    const prevImgSectionStep = () => {
+        if (currentImgSectionStep > 0) {
+            setCurrentImgSectionStep(currentImgSectionStep - 1);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
 
     const nextStep = () => {
-        if (validateForm(currentStep)) {
-            const updatedFormCompletion = [...formCompleted];
-            updatedFormCompletion[currentStep] = true;
-            setFormCompleted(updatedFormCompletion);
+        // TODO formik validation check if the current section is valid
 
-            if (currentStep < steps.length - 1) {
-                setCurrentStep(currentStep + 1);
-            }
-        } else alert('Please complete the form before proceeding.');
+        // if (validateForm(currentStep)) {
+        if (currentStep < steps.length - 1) {
+            setCurrentStep(currentStep + 1);
+        }
+        // } else alert('Please complete the form before proceeding.');
     };
 
     const goToStep = (stepIndex: SetStateAction<number>) => {
         const index = typeof stepIndex === 'function' ? stepIndex(currentStep) : stepIndex;
-        if (index <= currentStep || formCompleted[currentStep]) setCurrentStep(index);
-        else if (!formCompleted[currentStep])
-            alert('Please complete the current form step before proceeding.');
-    };
-
-    const handleChange = (e: any) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        setCurrentStep(index);
     };
 
     const countries = [
@@ -117,234 +132,22 @@ export default function App() {
         { key: '5', label: 'Sri Lanka' }
     ];
 
-    const renderFormContent = () => {
-        switch (currentStep) {
-            case 0:
-                return (
-                    <>
-                        <Select
-                            name="country"
-                            label="Country*"
-                            variant="bordered"
-                            labelPlacement="outside"
-                            placeholder="Select Country"
-                            classNames={{ label: '!text-white' }}
-                            value={formData.country}
-                            onChange={handleChange}
-                            required>
-                            {countries.map((country) => (
-                                <SelectItem key={country.key} value={country.label}>
-                                    {country.label}
-                                </SelectItem>
-                            ))}
-                        </Select>
-
-                        <Select
-                            name="visaType"
-                            label="Visa Type*"
-                            variant="bordered"
-                            labelPlacement="outside"
-                            placeholder="Select Visa Type"
-                            classNames={{ label: '!text-white' }}
-                            value={formData.visaType}
-                            onChange={handleChange}
-                            required>
-                            <SelectItem key="1" value="Tourist">
-                                Tourist
-                            </SelectItem>
-                            <SelectItem key="2" value="Business">
-                                Business
-                            </SelectItem>
-                            <SelectItem key="3" value="Student">
-                                Student
-                            </SelectItem>
-                            <SelectItem key="4" value="Work">
-                                Work
-                            </SelectItem>
-                        </Select>
-
-                        <Input
-                            name="reason"
-                            isClearable
-                            type="text"
-                            label="Reason"
-                            variant="bordered"
-                            placeholder="Enter the reason for visit"
-                            labelPlacement="outside"
-                            classNames={{
-                                label: ['!text-white', '!border-none'],
-                                input: ['!border-none', '!ring-0']
-                            }}
-                            value={formData.reason}
-                            onChange={handleChange}
-                        />
-                    </>
-                );
-
-            case 1:
-                return (
-                    <>
-                        <Input
-                            name="fullName"
-                            isClearable
-                            type="text"
-                            label="Full Name*"
-                            variant="bordered"
-                            placeholder="Enter your full name"
-                            labelPlacement="outside"
-                            classNames={{
-                                label: ['!text-white', '!border-none'],
-                                input: ['!border-none', '!ring-0']
-                            }}
-                            value={formData.fullName}
-                            onChange={handleChange}
-                            required
-                        />
-
-                        <DatePicker
-                            label="Date of Birth*"
-                            name="dob"
-                            className="!text-white"
-                            classNames={{
-                                label: '!text-white',
-                                input: '!text-white'
-                            }}
-                            variant="bordered"
-                            labelPlacement="outside"
-                        />
-
-                        <Input
-                            name="placeOfBirth"
-                            isClearable
-                            type="text"
-                            label="Place of Birth*"
-                            variant="bordered"
-                            placeholder="Enter your place of birth"
-                            labelPlacement="outside"
-                            classNames={{
-                                label: ['!text-white', '!border-none'],
-                                input: ['!border-none', '!ring-0']
-                            }}
-                            value={formData.placeOfBirth}
-                            onChange={handleChange}
-                            required
-                        />
-
-                        <Select
-                            name="countryOfBirth"
-                            label="Country of Birth*"
-                            variant="bordered"
-                            labelPlacement="outside"
-                            placeholder="Select Country"
-                            classNames={{ label: '!text-white' }}
-                            value={formData.countryOfBirth}
-                            onChange={handleChange}
-                            required>
-                            {countries.map((country) => (
-                                <SelectItem key={country.key} value={country.label}>
-                                    {country.label}
-                                </SelectItem>
-                            ))}
-                        </Select>
-
-                        <Select
-                            name="nationality"
-                            label="Current Nationality*"
-                            variant="bordered"
-                            labelPlacement="outside"
-                            placeholder="Select Country"
-                            classNames={{ label: '!text-white' }}
-                            value={formData.nationality}
-                            onChange={handleChange}
-                            required>
-                            {countries.map((country) => (
-                                <SelectItem key={country.key} value={country.label}>
-                                    {country.label}
-                                </SelectItem>
-                            ))}
-                        </Select>
-
-                        <Select
-                            name="sex"
-                            label="Sex*"
-                            variant="bordered"
-                            labelPlacement="outside"
-                            classNames={{ label: '!text-white' }}
-                            value={formData.sex}
-                            onChange={handleChange}
-                            required>
-                            <SelectItem key="1" value="male">
-                                Male
-                            </SelectItem>
-                            <SelectItem key="2" value="female">
-                                Female
-                            </SelectItem>
-                            <SelectItem key="3" value="other">
-                                Prefer not to say
-                            </SelectItem>
-                        </Select>
-
-                        <Select
-                            name="maritalStatus"
-                            label="Marital Status*"
-                            variant="bordered"
-                            labelPlacement="outside"
-                            classNames={{ label: '!text-white' }}
-                            value={formData.maritalStatus}
-                            onChange={handleChange}
-                            required>
-                            <SelectItem key="1" value="single">
-                                Single
-                            </SelectItem>
-                            <SelectItem key="2" value="married">
-                                Married
-                            </SelectItem>
-                            <SelectItem key="3" value="divorced">
-                                Divorced
-                            </SelectItem>
-                            <SelectItem key="4" value="widowed">
-                                Widowed
-                            </SelectItem>
-                        </Select>
-                    </>
-                );
-
-            case 2:
-                return (
-                    <>
-                        <Input
-                            name="documents"
-                            isClearable
-                            type="file"
-                            label="Upload Documents*"
-                            variant="bordered"
-                            labelPlacement="outside"
-                            classNames={{
-                                label: ['!text-white', '!border-none'],
-                                input: ['!border-none', '!ring-0']
-                            }}
-                            onChange={(e: any) => {
-                                setFormData({ ...formData, documents: [...e.target.files] });
-                            }}
-                            required
-                            multiple
-                        />
-                    </>
-                );
-
-            case 3:
-                return (
-                    <>
-                        <div>
-                            <h3 className="text-lg">Review your details:</h3>
-                        </div>
-                    </>
-                );
-
-            default:
-                return null;
-        }
-    };
+    const arrowSVG = (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="17"
+            height="18"
+            viewBox="0 0 17 18"
+            fill="none">
+            <path
+                d="M14.8574 8.71456H1.28599M1.28599 8.71456L6.26218 14.0717M1.28599 8.71456L6.26218 3.35742"
+                stroke="#182325"
+                stroke-width="1.42857"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            />
+        </svg>
+    );
 
     return (
         <div className="flex flex-col gap-4">
@@ -371,21 +174,358 @@ export default function App() {
                     <Card className="w-full bg-inherit text-white border-2 px-1 py-2 border-zinc-500">
                         <CardBody>
                             <div className="">
-                                <h2 className="text-xl">{steps[currentStep].description}</h2>
+                                <h2 className="text-xl mb-4">{steps[currentStep].description}</h2>
 
-                                <form className="flex w-full flex-wrap md:flex-nowrap gap-4 mt-4">
-                                    {renderFormContent()}
+                                <Form
+                                    validationSchema={getValidationSchema(currentStep)}
+                                    initialValues={initialValues}
+                                    onSubmit={onSubmit}
+                                    className="flex flex-col gap-4">
+                                    <div
+                                        className={`section-1 ${
+                                            currentStep === 0 ? '' : 'hidden'
+                                        } flex w-full flex-wrap md:flex-nowrap gap-4 mt-4 text-white`}>
+                                        <FormInput
+                                            label="Full name"
+                                            placeholder="Full name"
+                                            name="fullName"
+                                            classNames={{ mainWrapper: 'w-full' }}
+                                            isRequired
+                                        />
 
-                                    <div className="flex justify-center w-full mt-2">
-                                        <Button
-                                            className="bg-white rounded-[30px] w-full font-medium py-4 px-2"
-                                            onClick={nextStep}>
+                                        <FormDropdown
+                                            label="Country"
+                                            name="country"
+                                            classNames={{ mainWrapper: 'w-full' }}
+                                            options={countries.map((country) => ({
+                                                value: country.label,
+                                                label: country.label
+                                            }))}
+                                        />
+
+                                        <FormDropdown
+                                            label="Visa Type"
+                                            name="visaType"
+                                            classNames={{ mainWrapper: 'w-full' }}
+                                            options={[
+                                                { value: 'Tourist', label: 'Tourist' },
+                                                { value: 'Business', label: 'Business' },
+                                                { value: 'Student', label: 'Student' },
+                                                { value: 'Work', label: 'Work' }
+                                            ]}
+                                        />
+
+                                        <FormInput
+                                            label="Reason"
+                                            placeholder="Enter the reason for visit"
+                                            name="reason"
+                                            classNames={{ mainWrapper: 'w-full' }}
+                                            isRequired
+                                        />
+                                    </div>
+
+                                    {/* <div className="section-2 flex w-full flex-wrap md:flex-nowrap gap-4 mt-4 text-white"> */}
+                                    <div
+                                        className={`section-2 ${
+                                            currentStep === 1 ? '' : 'hidden'
+                                        } flex w-full flex-wrap md:flex-nowrap gap-4 mt-4 text-white`}>
+                                        <FormInput
+                                            label="Full name"
+                                            placeholder="Full name"
+                                            name="fullName"
+                                            classNames={{ mainWrapper: 'w-full' }}
+                                            isRequired
+                                        />
+
+                                        <FormInput
+                                            label="Date of Birth"
+                                            placeholder="Date of Birth"
+                                            name="dob"
+                                            type="date"
+                                            classNames={{ mainWrapper: 'w-full' }}
+                                            isRequired
+                                        />
+
+                                        <FormInput
+                                            label="Place of Birth"
+                                            placeholder="Place of Birth"
+                                            name="placeOfBirth"
+                                            classNames={{ mainWrapper: 'w-full' }}
+                                            isRequired
+                                        />
+
+                                        <FormDropdown
+                                            label="Country of Birth"
+                                            name="countryOfBirth"
+                                            classNames={{ mainWrapper: 'w-full' }}
+                                            options={countries.map((country) => ({
+                                                value: country.label,
+                                                label: country.label
+                                            }))}
+                                        />
+
+                                        <FormDropdown
+                                            label="Current Nationality"
+                                            name="nationality"
+                                            classNames={{ mainWrapper: 'w-full' }}
+                                            options={countries.map((country) => ({
+                                                value: country.label,
+                                                label: country.label
+                                            }))}
+                                        />
+
+                                        <FormDropdown
+                                            label="Sex"
+                                            name="sex"
+                                            classNames={{ mainWrapper: 'w-full' }}
+                                            options={[
+                                                { value: 'male', label: 'Male' },
+                                                { value: 'female', label: 'Female' },
+                                                { value: 'other', label: 'Other' },
+                                                {
+                                                    value: 'prefer_not_to_say',
+                                                    label: 'Prefer not to say'
+                                                }
+                                            ]}
+                                        />
+
+                                        <FormDropdown
+                                            label="Marital Status"
+                                            name="maritalStatus"
+                                            classNames={{ mainWrapper: 'w-full' }}
+                                            options={[
+                                                { value: 'single', label: 'Single' },
+                                                { value: 'married', label: 'Married' },
+                                                { value: 'divorced', label: 'Divorced' },
+                                                { value: 'widowed', label: 'Widowed' }
+                                            ]}
+                                        />
+                                    </div>
+
+                                    <div
+                                        className={`section-3 ${
+                                            currentStep === 2 ? '' : 'hidden'
+                                        } flex w-full flex-wrap md:flex-nowrap gap-4 mt-4 text-white`}>
+                                        <div
+                                            className={`img-section-1 w-full ${
+                                                currentImgSectionStep === 0 ? '' : 'hidden'
+                                            }`}>
+                                            <div className="flex flex-col gap-4 w-full pb-4">
+                                                <label
+                                                    htmlFor="image"
+                                                    className="text-sm border-dashed border-2 border-white rounded-[30px] py-8 px-2 w-full flex flex-col justify-center items-center">
+                                                    <Image
+                                                        alt="Upload Image Icon"
+                                                        className="object-cover px-2 w-5/6 mx-auto mb-1"
+                                                        shadow="none"
+                                                        src="/images/upload-img-ico.png"
+                                                        width="100%"
+                                                    />
+                                                    <div className="text-xs">
+                                                        Drop your image here, or{' '}
+                                                        <span className="text-cyan-700">
+                                                            browse
+                                                        </span>
+                                                    </div>
+                                                    <div className="text-[9px] opacity-70 mt-1">
+                                                        Supports: PNG, JPG, JPEG{' '}
+                                                    </div>
+                                                </label>
+                                                <input type="file" id="image" className="hidden" />
+                                            </div>
+                                            <Button
+                                                className={`bg-white rounded-[30px] w-full font-medium py-4 px-2`}>
+                                                Upload Image
+                                            </Button>
+
+                                            <h2 className="text-lg font-medium pt-6 pb-4">
+                                                How to take good photos
+                                            </h2>
+
+                                            <div className="w-full pb-2">
+                                                <Image
+                                                    alt="Img Upload Guide"
+                                                    className="object-contain w-full mx-auto mb-1 aspect-square"
+                                                    shadow="none"
+                                                    src="/images/upload-guide.png"
+                                                    width="100%"
+                                                />
+                                            </div>
+
+                                            <h3 className="text-lg font-medium pb-2">Quality</h3>
+                                            <p>
+                                                Our team of experts will review your photo and make
+                                                sure it meets all the necessary criteria for your
+                                                passport, so you can have peace of mind knowing your
+                                                photo will be accepted.
+                                            </p>
+                                        </div>
+
+                                        <div
+                                            className={`img-section-2 w-full ${
+                                                currentImgSectionStep === 1 ? '' : 'hidden'
+                                            }`}>
+                                            <div className="w-full pb-2">
+                                                <Image
+                                                    alt="Img Upload Guide"
+                                                    className="object-contain w-full mx-auto mb-1"
+                                                    shadow="none"
+                                                    src="/images/placeholder.png"
+                                                    width="100%"
+                                                />
+                                            </div>
+
+                                            <h2 className="text-xl font-medium pb-4">
+                                                Compatibility test passsed
+                                            </h2>
+
+                                            <div className="flex flex-col gap-2">
+                                                <div className="flex gap-2">
+                                                    <CheckIcon />
+                                                    <p>Corrected the aspect ratio</p>
+                                                </div>
+                                                <div className="flex gap-2">
+                                                    <CheckIcon />
+                                                    <p>Adjusted size of the face in the photo</p>
+                                                </div>
+                                                <div className="flex gap-2">
+                                                    <CheckIcon />
+                                                    <p>Detected correct photo resolution</p>
+                                                </div>
+                                            </div>
+
+                                            <h2 className="text-lg font-medium pt-6 pb-4">
+                                                How to take good photos
+                                            </h2>
+
+                                            <div className="w-full pb-2">
+                                                <Image
+                                                    alt="Img Upload Guide"
+                                                    className="object-contain w-full mx-auto mb-1 aspect-square"
+                                                    shadow="none"
+                                                    src="/images/upload-guide.png"
+                                                    width="100%"
+                                                />
+                                            </div>
+
+                                            <h3 className="text-lg font-medium pb-2">Quality</h3>
+                                            <p>
+                                                Our team of experts will review your photo and make
+                                                sure it meets all the necessary criteria for your
+                                                passport, so you can have peace of mind knowing your
+                                                photo will be accepted.
+                                            </p>
+                                        </div>
+
+                                        <div
+                                            className={`img-section-3 w-full ${
+                                                currentImgSectionStep === 2 ? '' : 'hidden'
+                                            }`}>
+                                            <h2 className="text-lg font-medium pb-4">
+                                                Passport Details
+                                            </h2>
+
+                                            <div className="flex flex-col gap-4 w-full pb-4">
+                                                <label
+                                                    htmlFor="image"
+                                                    className="text-sm border-dashed border-2 border-white rounded-[30px] py-8 px-2 w-full flex flex-col justify-center items-center">
+                                                    <Image
+                                                        alt="Upload Image Icon"
+                                                        className="object-cover px-2 w-5/6 mx-auto mb-1"
+                                                        shadow="none"
+                                                        src="/images/upload-img-ico.png"
+                                                        width="100%"
+                                                    />
+                                                    <div className="text-xs px-4 text-center text-pretty">
+                                                        Drop your passport photo here, or{' '}
+                                                        <span className="text-cyan-700">
+                                                            browse
+                                                        </span>
+                                                    </div>
+                                                    <div className="text-[9px] opacity-70 mt-1">
+                                                        Supports: PNG, JPG, JPEG{' '}
+                                                    </div>
+                                                </label>
+                                                <input type="file" id="image" className="hidden" />
+                                            </div>
+                                            <Button
+                                                className={`bg-white rounded-[30px] w-full font-medium py-4 px-2`}>
+                                                Save
+                                            </Button>
+
+                                            <div className="flex flex-col gap-3 pt-4">
+                                                <FormInput
+                                                    label="Passport No"
+                                                    placeholder="Passport No"
+                                                    name="passportNo"
+                                                    classNames={{ mainWrapper: 'w-full' }}
+                                                    type="number"
+                                                    isRequired
+                                                />
+
+                                                <FormInput
+                                                    label="Date of Issue"
+                                                    placeholder="Date of Issue"
+                                                    name="dateOfIssue"
+                                                    type="date"
+                                                    classNames={{ mainWrapper: 'w-full' }}
+                                                    isRequired
+                                                />
+
+                                                <FormInput
+                                                    label="Issuing Authority"
+                                                    placeholder="Issuing Authority"
+                                                    name="issuingAuthority"
+                                                    classNames={{ mainWrapper: 'w-full' }}
+                                                    isRequired
+                                                />
+
+                                                <FormInput
+                                                    label="Date of Expiration"
+                                                    placeholder="Date of Expiration"
+                                                    name="dateOfExpiration"
+                                                    type="date"
+                                                    classNames={{ mainWrapper: 'w-full' }}
+                                                    isRequired
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="flex justify-center items-center gap-4 w-full">
+                                            <div className="flex justify-center items-center gap-2">
+                                                <Button
+                                                    onClick={prevImgSectionStep}
+                                                    className={`bg-white rounded-full w-full font-medium py-6 aspect-square min-w-0`}>
+                                                    {arrowSVG}
+                                                </Button>
+                                                <Button
+                                                    onClick={nextImgSectionStep}
+                                                    className={`bg-white rounded-full w-full font-medium py-6 transform rotate-180 aspect-square min-w-0`}>
+                                                    {arrowSVG}
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex justify-center w-full mt-4">
+                                        <SubmitButton
+                                            type="submit"
+                                            className={`${
+                                                currentStep === 3 ? 'hidden' : ''
+                                            } bg-white text-black rounded-[30px] font-medium py-4 px-2 w-full max-w-none`}>
                                             {currentStep === steps.length - 1
                                                 ? 'Submit'
                                                 : 'Next Step'}
+                                        </SubmitButton>
+                                        <Button
+                                            className={`${
+                                                currentStep === 3 ? '' : 'hidden'
+                                            } bg-white rounded-[30px] w-full font-medium py-4 px-2`}
+                                            onClick={nextStep}>
+                                            Next Step
                                         </Button>
                                     </div>
-                                </form>
+                                </Form>
                             </div>
                         </CardBody>
                     </Card>
