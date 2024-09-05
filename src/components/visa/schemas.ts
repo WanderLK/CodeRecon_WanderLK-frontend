@@ -27,3 +27,9 @@ export const countries = [
     { key: '4', label: 'Australia' },
     { key: '5', label: 'Sri Lanka' }
 ];
+
+export const countryInitialValues = {
+    country: '',
+    visaType: '',
+    reason: ''
+};

@@ -2,13 +2,17 @@ import Form from '@/components/form';
 import SubmitButton from '@/components/form/button';
 import FormEditor from '@/components/form/editor';
 import CountryDetails from '@/components/visa/country';
-import { countryValidationSchema, feedbackValidationSchema } from '@/components/visa/schemas';
+import {
+    countryInitialValues,
+    countryValidationSchema,
+    feedbackValidationSchema
+} from '@/components/visa/schemas';
 import { FormikValues } from 'formik';
 import { useMemo } from 'react';
 
 export default function RequestCountry() {
     const initialValues = useMemo(() => {
-        const template = {};
+        const template = countryInitialValues;
 
         return template;
     }, []);
