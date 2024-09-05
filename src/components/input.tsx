@@ -26,9 +26,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 labelPlacement={labelPlacement}
                 variant={variant}
                 classNames={{
+                    label: ['!text-white'],
+                    // input: ['!border-none', '!ring-0'],
                     inputWrapper: [
-                        'shadow-none border-2 border-gray-500 rounded-md',
-                        'data-[focus=true]:!border-gray-500'
+                        'shadow-none border-2 border-white',
+                        'data-[focus=true]:!border-white'
                     ],
                     input: 'focus:outline-none border-transparent focus:border-transparent focus:ring-0 file:cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 file:bg-gray-100 file:hover:bg-gray-200 file:text-gray-500'
                 }}

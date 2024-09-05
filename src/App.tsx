@@ -6,6 +6,7 @@ const Hotels = loadable(() => import('./pages/hotels'));
 const Hotel = loadable(() => import('./pages/hotels/hotel'));
 const Visa = loadable(() => import('./pages/visa/index'));
 const Flights = loadable(() => import('./pages/flights/index'));
+const VisaRequest = loadable(() => import('./pages/visa/request'));
 
 function App() {
     return (
@@ -21,7 +22,11 @@ function App() {
                         <Route path="flights" element={<Outlet />}>
                             <Route path="" element={<Flights />} />
                         </Route>
-                        <Route path="/visa" element={<Visa />} />
+                        
+                        <Route path="visa" element={<Outlet />}>
+                            <Route path="" element={<Visa />} />
+                            <Route path="request" element={<VisaRequest />} />
+                        </Route>
                     </Routes>
                 </main>
 
