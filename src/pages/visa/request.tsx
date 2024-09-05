@@ -3,15 +3,14 @@ import { Button, Card, CardBody, Image } from '@nextui-org/react';
 import { SetStateAction, useState } from 'react';
 
 import Form from '@/components/form';
-import FormAutoComplete from '@/components/form/autocomplete';
 import SubmitButton from '@/components/form/button';
 import FormInput from '@/components/form/input';
 import { CheckIcon } from '@/components/icons/check-icon';
-import { FormikValues } from 'formik';
-import * as Yup from 'yup';
-import { countryValidationSchema, personalValidationSchema } from '@/components/visa/schemas';
 import CountryDetails from '@/components/visa/country';
 import PersonalDetails from '@/components/visa/personal';
+import { countryValidationSchema, personalValidationSchema } from '@/components/visa/schemas';
+import { FormikValues } from 'formik';
+import * as Yup from 'yup';
 
 // const validationSchema = Yup.object().shape({
 //     fullName: Yup.string().required('First Name is required'),
