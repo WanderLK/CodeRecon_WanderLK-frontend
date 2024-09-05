@@ -8,6 +8,7 @@ export default function Pagination({ page = 1, pages = 0 }: PaginationProps) {
     const searchParams = new URLSearchParams(params.toString());
 
     if (searchParams.get('page')) page = parseInt(searchParams.get('page'));
+
     const pageNumbers = getPageNumbers({ page, pages });
 
     const generateLink = (page: number = 1): string => {

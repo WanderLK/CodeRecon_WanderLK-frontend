@@ -1,7 +1,7 @@
 import Button from '@/components/button';
 import HotelCard from '@/components/cards/hotel';
 import Rating from '@/components/rating';
-import TopNavbar from '@/layout/top-navbar';
+import TopNavbar from '@/layout/landing/top-navbar';
 import {
     Avatar,
     Card,

@@ -1,7 +1,7 @@
 import Button from '@/components/button';
 import FlightCard from '@/components/cards/flight';
 import SearchInput from '@/components/search';
-import TopNavbar from '@/layout/top-navbar';
+import TopNavbar from '@/layout/landing/top-navbar';
 import { Accordion, AccordionItem, Divider } from '@nextui-org/react';
 
 const LargeDot = () => (

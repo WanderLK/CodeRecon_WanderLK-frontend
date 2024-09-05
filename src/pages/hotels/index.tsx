@@ -1,6 +1,6 @@
 import HotelCard from '@/components/cards/hotel';
 import SearchInput from '@/components/search';
-import TopNavbar from '@/layout/top-navbar';
+import TopNavbar from '@/layout/landing/top-navbar';
 import { config } from 'react-spring';
 // @ts-ignore
 import { useSpringCarousel } from 'react-spring-carousel';

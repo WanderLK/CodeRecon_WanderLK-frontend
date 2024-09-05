@@ -1,5 +1,5 @@
 import Button from '@/components/button';
-import NavLink from '@/components/nav-link';
+import NavLink from '@/components/nav-links/landing';
 
 export default function BottomNavbar() {
     return (

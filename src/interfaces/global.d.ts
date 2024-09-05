@@ -1,5 +1,6 @@
 interface ElementProps {
     children?: ReactElement;
+    className?: string;
 }
 
 type BaseDivAttributes = React.ComponentPropsWithoutRef<'div'>;

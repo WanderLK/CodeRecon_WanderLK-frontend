@@ -1,4 +1,4 @@
-import TopNavbar from '@/layout/top-navbar';
+import TopNavbar from '@/layout/landing/top-navbar';
 
 export default function Flights() {
     return (

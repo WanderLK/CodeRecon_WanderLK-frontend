@@ -32,7 +32,9 @@ export default {
             colors: {
                 accent: '#E1A160',
                 theme: '#192829',
-                light: '#2C4546'
+                light: '#2C4546',
+                'dark-accent': '#9F5E1E',
+                'light-accent': '#9F5E1E10'
             },
             boxShadow: {
                 custom: '1px 4px 8.7px 0px rgba(0, 0, 0, 0.29)'

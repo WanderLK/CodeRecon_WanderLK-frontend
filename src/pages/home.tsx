@@ -1,6 +1,6 @@
 import PlaceCard from '@/components/cards/place';
 import SearchInput from '@/components/search';
-import TopNavbar from '@/layout/top-navbar';
+import TopNavbar from '@/layout/landing/top-navbar';
 import { config } from 'react-spring';
 // @ts-ignore
 import { useSpringCarousel } from 'react-spring-carousel';
@@ -22,7 +22,7 @@ export default function Home() {
     });
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 pb-10">
             <TopNavbar />
             <div className="p-5">
                 <SearchInput />
