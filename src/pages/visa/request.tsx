@@ -9,9 +9,18 @@ import FormInput from '@/components/form/input';
 import { CheckIcon } from '@/components/icons/check-icon';
 import { FormikValues } from 'formik';
 import * as Yup from 'yup';
-import { countryValidationSchema, personalValidationSchema } from '@/components/visa/schemas';
+import {
+    countryValidationSchema,
+    personalValidationSchema,
+    passportValidationSchema
+} from '@/components/visa/schemas';
+
 import CountryDetails from '@/components/visa/country';
 import PersonalDetails from '@/components/visa/personal';
+import ImgUploadArea from '@/components/visa/img-upload-area';
+import PersonalImageDetails from '@/components/visa/personal-image';
+import PhotoReviewSection from '@/components/visa/img-compatability-test';
+import PassportDetails from '@/components/visa/passport';
 
 // const validationSchema = Yup.object().shape({
 //     fullName: Yup.string().required('First Name is required'),
@@ -47,12 +56,22 @@ export default function App() {
         }
     ];
 
+    const combinedValidationSchema = Yup.object().shape({
+        ...countryValidationSchema.fields,
+        ...personalValidationSchema.fields,
+        ...passportValidationSchema.fields
+    });
+
     const getValidationSchema = (step: number) => {
         switch (step) {
             case 0:
                 return countryValidationSchema;
             case 1:
                 return personalValidationSchema;
+            case 2:
+                return passportValidationSchema;
+            case 3:
+                return combinedValidationSchema;
             default:
                 return Yup.object().shape({});
         }
@@ -73,14 +92,22 @@ export default function App() {
             // TODO submit the form
             console.log('Form submitted');
         } else {
+            // if img & doc section and not last ImgSectionStep
+            if (currentStep === 2 && currentImgSectionStep < 3) {
+                nextImgSectionStep();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+
             nextStep();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
 
     const [currentStep, setCurrentStep] = useState(0);
     const [currentImgSectionStep, setCurrentImgSectionStep] = useState(0);
 
-    const imgSectionSteps = 3;
+    const imgSectionSteps = 4;
     const nextImgSectionStep = () => {
         if (currentImgSectionStep < imgSectionSteps - 1) {
             setCurrentImgSectionStep(currentImgSectionStep + 1);
@@ -168,205 +195,79 @@ export default function App() {
                                     className="flex flex-col gap-4">
                                     <div
                                         className={`section-1 ${
-                                            currentStep === 0 ? '' : 'hidden'
+                                            [0, 3].includes(currentStep) ? '' : 'hidden'
                                         } flex w-full flex-wrap md:flex-nowrap gap-4 mt-4 text-white`}>
                                         <CountryDetails />
                                     </div>
 
-                                    {/* <div className="section-2 flex w-full flex-wrap md:flex-nowrap gap-4 mt-4 text-white"> */}
                                     <div
                                         className={`section-2 ${
-                                            currentStep === 1 ? '' : 'hidden'
+                                            [1, 3].includes(currentStep) ? '' : 'hidden'
                                         } flex w-full flex-wrap md:flex-nowrap gap-4 mt-4 text-white`}>
                                         <PersonalDetails />
                                     </div>
 
                                     <div
                                         className={`section-3 ${
-                                            currentStep === 2 ? '' : 'hidden'
+                                            [2, 3].includes(currentStep) ? '' : 'hidden'
                                         } flex w-full flex-wrap md:flex-nowrap gap-4 mt-4 text-white`}>
                                         <div
                                             className={`img-section-1 w-full ${
                                                 currentImgSectionStep === 0 ? '' : 'hidden'
                                             }`}>
-                                            <div className="flex flex-col gap-4 w-full pb-4">
-                                                <label
-                                                    htmlFor="image"
-                                                    className="text-sm border-dashed border-2 border-white rounded-[30px] py-8 px-2 w-full flex flex-col justify-center items-center">
-                                                    <Image
-                                                        alt="Upload Image Icon"
-                                                        className="object-cover px-2 w-5/6 mx-auto mb-1"
-                                                        shadow="none"
-                                                        src="/images/upload-img-ico.png"
-                                                        width="100%"
-                                                    />
-                                                    <div className="text-xs">
-                                                        Drop your image here, or{' '}
-                                                        <span className="text-cyan-700">
-                                                            browse
-                                                        </span>
-                                                    </div>
-                                                    <div className="text-[9px] opacity-70 mt-1">
-                                                        Supports: PNG, JPG, JPEG{' '}
-                                                    </div>
-                                                </label>
-                                                <input type="file" id="image" className="hidden" />
-                                            </div>
-                                            <Button
-                                                className={`bg-white text-black rounded-[30px] w-full font-medium py-4 px-2`}>
-                                                Upload Image
-                                            </Button>
-
-                                            <h2 className="text-lg font-medium pt-6 pb-4">
-                                                How to take good photos
-                                            </h2>
-
-                                            <div className="w-full pb-2">
-                                                <Image
-                                                    alt="Img Upload Guide"
-                                                    className="object-contain w-full mx-auto mb-1 aspect-square"
-                                                    shadow="none"
-                                                    src="/images/upload-guide.png"
-                                                    width="100%"
-                                                />
-                                            </div>
-
-                                            <h3 className="text-lg font-medium pb-2">Quality</h3>
-                                            <p>
-                                                Our team of experts will review your photo and make
-                                                sure it meets all the necessary criteria for your
-                                                passport, so you can have peace of mind knowing your
-                                                photo will be accepted.
-                                            </p>
+                                            <PersonalImageDetails />
                                         </div>
 
                                         <div
                                             className={`img-section-2 w-full ${
-                                                currentImgSectionStep === 1 ? '' : 'hidden'
+                                                currentImgSectionStep === 1 || currentStep === 3
+                                                    ? ''
+                                                    : 'hidden'
                                             }`}>
-                                            <div className="w-full pb-2">
-                                                <Image
-                                                    alt="Img Upload Guide"
-                                                    className="object-contain w-full mx-auto mb-1"
-                                                    shadow="none"
-                                                    src="/images/placeholder.png"
-                                                    width="100%"
-                                                />
-                                            </div>
-
-                                            <h2 className="text-xl font-medium pb-4">
-                                                Compatibility test passsed
-                                            </h2>
-
-                                            <div className="flex flex-col gap-2">
-                                                <div className="flex gap-2">
-                                                    <CheckIcon />
-                                                    <p>Corrected the aspect ratio</p>
-                                                </div>
-                                                <div className="flex gap-2">
-                                                    <CheckIcon />
-                                                    <p>Adjusted size of the face in the photo</p>
-                                                </div>
-                                                <div className="flex gap-2">
-                                                    <CheckIcon />
-                                                    <p>Detected correct photo resolution</p>
-                                                </div>
-                                            </div>
-
-                                            <h2 className="text-lg font-medium pt-6 pb-4">
-                                                How to take good photos
-                                            </h2>
-
-                                            <div className="w-full pb-2">
-                                                <Image
-                                                    alt="Img Upload Guide"
-                                                    className="object-contain w-full mx-auto mb-1 aspect-square"
-                                                    shadow="none"
-                                                    src="/images/upload-guide.png"
-                                                    width="100%"
-                                                />
-                                            </div>
-
-                                            <h3 className="text-lg font-medium pb-2">Quality</h3>
-                                            <p>
-                                                Our team of experts will review your photo and make
-                                                sure it meets all the necessary criteria for your
-                                                passport, so you can have peace of mind knowing your
-                                                photo will be accepted.
-                                            </p>
+                                            <PhotoReviewSection
+                                                currentStep={currentStep}
+                                                photoSrc="/images/placeholder.png"
+                                            />
                                         </div>
 
                                         <div
                                             className={`img-section-3 w-full ${
-                                                currentImgSectionStep === 2 ? '' : 'hidden'
+                                                currentImgSectionStep === 2 || currentStep === 3
+                                                    ? ''
+                                                    : 'hidden'
                                             }`}>
                                             <h2 className="text-lg font-medium pb-4">
                                                 Passport Details
                                             </h2>
 
-                                            <div className="flex flex-col gap-4 w-full pb-4">
-                                                <label
-                                                    htmlFor="image"
-                                                    className="text-sm border-dashed border-2 border-white rounded-[30px] py-8 px-2 w-full flex flex-col justify-center items-center">
-                                                    <Image
-                                                        alt="Upload Image Icon"
-                                                        className="object-cover px-2 w-5/6 mx-auto mb-1"
-                                                        shadow="none"
-                                                        src="/images/upload-img-ico.png"
-                                                        width="100%"
-                                                    />
-                                                    <div className="text-xs px-4 text-center text-pretty">
-                                                        Drop your passport photo here, or{' '}
-                                                        <span className="text-cyan-700">
-                                                            browse
-                                                        </span>
-                                                    </div>
-                                                    <div className="text-[9px] opacity-70 mt-1">
-                                                        Supports: PNG, JPG, JPEG{' '}
-                                                    </div>
-                                                </label>
-                                                <input type="file" id="image" className="hidden" />
-                                            </div>
-                                            <Button
-                                                className={`bg-white text-black rounded-[30px] w-full font-medium py-4 px-2`}>
-                                                Save
-                                            </Button>
+                                            <ImgUploadArea name="passportPhoto" />
 
                                             <div className="flex flex-col gap-3 pt-4">
-                                                <FormInput
-                                                    label="Passport No"
-                                                    placeholder="Passport No"
-                                                    name="passportNo"
-                                                    type="number"
-                                                    isRequired
-                                                />
-
-                                                <FormInput
-                                                    label="Date of Issue"
-                                                    placeholder="Date of Issue"
-                                                    name="dateOfIssue"
-                                                    type="date"
-                                                    isRequired
-                                                />
-
-                                                <FormInput
-                                                    label="Issuing Authority"
-                                                    placeholder="Issuing Authority"
-                                                    name="issuingAuthority"
-                                                    isRequired
-                                                />
-
-                                                <FormInput
-                                                    label="Date of Expiration"
-                                                    placeholder="Date of Expiration"
-                                                    name="dateOfExpiration"
-                                                    type="date"
-                                                    isRequired
-                                                />
+                                                <PassportDetails />
                                             </div>
                                         </div>
 
-                                        <div className="flex justify-center items-center gap-4 w-full">
+                                        <div
+                                            className={`img-section-3 w-full ${
+                                                currentImgSectionStep === 3 || currentStep === 3
+                                                    ? ''
+                                                    : 'hidden'
+                                            }`}>
+                                            <h2 className="text-lg font-medium pb-4">
+                                                Proof of Accommodation
+                                            </h2>
+                                            <ImgUploadArea name="proofOfAccommodation" />
+
+                                            <h2 className="text-lg font-medium pt-4 pb-4">
+                                                Valid permit to return
+                                            </h2>
+                                            <ImgUploadArea name="validPermitToReturn" />
+                                        </div>
+
+                                        <div
+                                            className={`${
+                                                currentStep === 3 ? 'hidden' : 'flex'
+                                            } justify-center items-center gap-4 w-full`}>
                                             <div className="flex justify-center items-center gap-2">
                                                 <Button
                                                     onClick={prevImgSectionStep}
@@ -385,20 +286,11 @@ export default function App() {
                                     <div className="flex justify-center w-full mt-4">
                                         <SubmitButton
                                             type="submit"
-                                            className={`${
-                                                currentStep === 3 ? 'hidden' : ''
-                                            } bg-white text-black rounded-[30px] font-medium py-4 px-2 w-full max-w-none`}>
+                                            className={`bg-white text-black rounded-[30px] font-medium py-4 px-2 w-full max-w-none`}>
                                             {currentStep === steps.length - 1
                                                 ? 'Submit'
                                                 : 'Next Step'}
                                         </SubmitButton>
-                                        <Button
-                                            className={`${
-                                                currentStep === 3 ? '' : 'hidden'
-                                            } bg-white text-black rounded-[30px] w-full font-medium py-4 px-2`}
-                                            onClick={nextStep}>
-                                            Next Step
-                                        </Button>
                                     </div>
                                 </Form>
                             </div>
