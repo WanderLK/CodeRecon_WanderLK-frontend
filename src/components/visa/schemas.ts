@@ -16,6 +16,14 @@ export const personalValidationSchema = Yup.object().shape({
     maritalStatus: Yup.string().required('Marital Status is required')
 });
 
+export const passportValidationSchema = Yup.object().shape({
+    passportNo: Yup.string().required('Passport Number is required'),
+    dateOfIssue: Yup.string().required('Date of Issue is required'),
+    issuingAuthority: Yup.string().required('Issuing Authority is required'),
+    dateOfExpiration: Yup.string().required('Date of Expiration is required'),
+    // proofOfAccommodation: Yup.string().required('Proof of Accommodation is required')
+});
+
 export const feedbackValidationSchema = Yup.object().shape({
     feedback: Yup.string().required('Feedback is required')
 });
