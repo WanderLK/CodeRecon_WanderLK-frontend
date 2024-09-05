@@ -6,9 +6,8 @@ import Form from '@/components/form';
 import SubmitButton from '@/components/form/button';
 import FormInput from '@/components/form/input';
 import { CheckIcon } from '@/components/icons/check-icon';
-import CountryDetails from '@/components/visa/country';
-import PersonalDetails from '@/components/visa/personal';
-import { countryValidationSchema, personalValidationSchema } from '@/components/visa/schemas';
+import CountryDetails, { countryValidationSchema } from '@/components/visa/country';
+import PersonalDetails, { personalValidationSchema } from '@/components/visa/personal';
 import { FormikValues } from 'formik';
 import * as Yup from 'yup';
 
@@ -107,14 +106,6 @@ export default function App() {
         const index = typeof stepIndex === 'function' ? stepIndex(currentStep) : stepIndex;
         setCurrentStep(index);
     };
-
-    const countries = [
-        { key: '1', label: 'United Kingdom' },
-        { key: '2', label: 'United States' },
-        { key: '3', label: 'Canada' },
-        { key: '4', label: 'Australia' },
-        { key: '5', label: 'Sri Lanka' }
-    ];
 
     const arrowSVG = (
         <svg

@@ -1,8 +1,11 @@
 import Form from '@/components/form';
 import SubmitButton from '@/components/form/button';
 import FormEditor from '@/components/form/editor';
-import PersonalDetails from '@/components/visa/personal';
-import { countryValidationSchema, feedbackValidationSchema } from '@/components/visa/schemas';
+import PersonalDetails, {
+    personalValidationSchema,
+    personalInitialValues
+} from '@/components/visa/personal';
+import { feedbackValidationSchema } from '@/components/visa/data';
 import { FormikValues } from 'formik';
 import { useMemo } from 'react';
 
@@ -20,8 +23,8 @@ export default function RequestPersonal() {
             <h1 className="font-semibold text-3xl">Country Details</h1>
 
             <Form
-                validationSchema={countryValidationSchema}
-                initialValues={initialValues}
+                validationSchema={personalValidationSchema}
+                initialValues={personalInitialValues}
                 onSubmit={onSubmit}
                 className="flex flex-col gap-4 w-full">
                 <PersonalDetails />

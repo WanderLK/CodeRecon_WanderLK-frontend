@@ -1,12 +1,11 @@
 import Form from '@/components/form';
 import SubmitButton from '@/components/form/button';
 import FormEditor from '@/components/form/editor';
-import CountryDetails from '@/components/visa/country';
-import {
+import CountryDetails, {
     countryInitialValues,
-    countryValidationSchema,
-    feedbackValidationSchema
-} from '@/components/visa/schemas';
+    countryValidationSchema
+} from '@/components/visa/country';
+import { feedbackValidationSchema } from '@/components/visa/data';
 import { FormikValues } from 'formik';
 import { useMemo } from 'react';
 

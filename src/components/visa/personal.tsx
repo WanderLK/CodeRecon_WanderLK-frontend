@@ -1,7 +1,20 @@
 import { Fragment } from 'react/jsx-runtime';
 import FormInput from '../form/input';
 import FormAutoComplete from '../form/autocomplete';
-import { countries } from './schemas';
+import { countries } from './data';
+import * as Yup from 'yup';
+
+export const personalValidationSchema = Yup.object().shape({
+    fullName: Yup.string().required('First Name is required'),
+    dob: Yup.string().required('Date of Birth is required'),
+    placeOfBirth: Yup.string().required('Place of Birth is required'),
+    countryOfBirth: Yup.string().required('Country of Birth is required'),
+    nationality: Yup.string().required('Current Nationality is required'),
+    sex: Yup.string().required('Sex is required'),
+    maritalStatus: Yup.string().required('Marital Status is required')
+});
+
+export const personalInitialValues = {};
 
 export default function PersonalDetails() {
     return (

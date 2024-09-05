@@ -1,7 +1,20 @@
 import { Fragment } from 'react/jsx-runtime';
 import FormAutoComplete from '../form/autocomplete';
 import FormInput from '../form/input';
-import { countries } from './schemas';
+import { countries } from './data';
+import * as Yup from 'yup';
+
+export const countryValidationSchema = Yup.object().shape({
+    country: Yup.string().required('Country is required'),
+    visaType: Yup.string().required('Visa Type is required'),
+    reason: Yup.string().required('Reason is required')
+});
+
+export const countryInitialValues = {
+    country: '',
+    visaType: '',
+    reason: ''
+};
 
 export default function CountryDetails() {
     return (
