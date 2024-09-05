@@ -33,6 +33,7 @@ export default {
                 accent: '#E1A160',
                 theme: '#192829',
                 light: '#2C4546',
+                'dark-green': '#182F2E',
                 'dark-accent': '#9F5E1E',
                 'light-accent': '#9F5E1E10'
             },

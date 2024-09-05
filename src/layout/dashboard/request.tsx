@@ -8,19 +8,29 @@ export default function RequestLayout() {
             <div className="flex flex-col gap-4 h-full py-4 px-6 max-w-[370px] w-full">
                 <h1 className="text-3xl mb-4">Application Name</h1>
 
-                <DashboardRequestNavLink verified to="">
+                <DashboardRequestNavLink end verified to="">
                     Country Details
                 </DashboardRequestNavLink>
-                <DashboardRequestNavLink to="personal">Personal Details</DashboardRequestNavLink>
-                <DashboardRequestNavLink to="image">User Image</DashboardRequestNavLink>
-                <DashboardRequestNavLink to="passport">Passport Details</DashboardRequestNavLink>
-                <DashboardRequestNavLink to="proof">Proof Accommodation</DashboardRequestNavLink>
-                <DashboardRequestNavLink to="validity">
+                <DashboardRequestNavLink end to="personal">
+                    Personal Details
+                </DashboardRequestNavLink>
+                <DashboardRequestNavLink end to="image">
+                    User Image
+                </DashboardRequestNavLink>
+                <DashboardRequestNavLink end to="passport">
+                    Passport Details
+                </DashboardRequestNavLink>
+                <DashboardRequestNavLink end to="proof">
+                    Proof Accommodation
+                </DashboardRequestNavLink>
+                <DashboardRequestNavLink end to="validity">
                     Valid Permit to Return
                 </DashboardRequestNavLink>
-                <DashboardRequestNavLink to="interpol">Interpol Detection</DashboardRequestNavLink>
+                <DashboardRequestNavLink end to="interpol">
+                    Interpol Detection
+                </DashboardRequestNavLink>
             </div>
-            <div className="flex flex-col gap-4 h-full border-l-1 border-l-[#CCCCCC] py-4 px-6">
+            <div className="flex flex-col gap-4 h-full border-l-1 border-l-[#CCCCCC] py-4 px-6 w-full text-black">
                 <Outlet />
             </div>
         </WhileCard>

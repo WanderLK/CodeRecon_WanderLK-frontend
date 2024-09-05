@@ -21,7 +21,7 @@ export default function FormInput({ name, onChange, classNames, ...props }: Form
 
     return (
         <div
-            className={`flex flex-col gap-1 ${
+            className={`flex flex-col gap-1 w-full ${
                 classNames?.mainWrapper ? classNames.mainWrapper : ''
             }`}>
             <Input name={name} onChange={handleChange} {...props} {...field} />

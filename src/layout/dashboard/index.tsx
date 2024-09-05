@@ -4,7 +4,7 @@ import SideNavbar from './side-navbar';
 
 export default function DashboardLayout() {
     return (
-        <div className="bg-[#F7F7F7] w-full min-h-screen">
+        <div className="bg-[#F7F7F7] w-full min-h-screen light">
             <TopNavbar />
 
             <main className="flex w-full h-full">

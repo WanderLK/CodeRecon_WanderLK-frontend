@@ -1,12 +1,12 @@
 import Form from '@/components/form';
 import SubmitButton from '@/components/form/button';
 import FormEditor from '@/components/form/editor';
-import CountryDetails from '@/components/visa/country';
+import PersonalDetails from '@/components/visa/personal';
 import { countryValidationSchema, feedbackValidationSchema } from '@/components/visa/schemas';
 import { FormikValues } from 'formik';
 import { useMemo } from 'react';
 
-export default function RequestCountry() {
+export default function RequestPersonal() {
     const initialValues = useMemo(() => {
         const template = {};
 
@@ -24,7 +24,7 @@ export default function RequestCountry() {
                 initialValues={initialValues}
                 onSubmit={onSubmit}
                 className="flex flex-col gap-4 w-full">
-                <CountryDetails />
+                <PersonalDetails />
 
                 <SubmitButton className="self-end" theme="dashboard">
                     Approve
