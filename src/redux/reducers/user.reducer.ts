@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { getCookie } from 'cookies-next';
 
 interface userProps {
     id: string;
@@ -18,11 +19,13 @@ export interface userStateProps {
     user: userProps;
 }
 
+const logged = getCookie('token') ? true : false;
+
 const initState: userStateProps = {
     loading: true,
-    logged: true,
+    logged: logged,
     user: {
-        id: '66daa8d5944fec1a330f5079',
+        id: '',
         email: '',
         firstName: '',
         lastName: '',

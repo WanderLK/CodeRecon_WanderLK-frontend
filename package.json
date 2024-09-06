@@ -31,6 +31,7 @@
         "@smastrom/react-rating": "^1.5.0",
         "@tailwindcss/forms": "^0.5.8",
         "@types/loadable__component": "^5.13.9",
+        "cookies-next": "^4.2.1",
         "formik": "^2.4.6",
         "framer-motion": "^11.3.31",
         "moment": "^2.30.1",

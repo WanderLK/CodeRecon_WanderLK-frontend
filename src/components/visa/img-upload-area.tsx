@@ -32,7 +32,7 @@ export default function ImgUploadArea({ name, verify }: ImgUploadAreaProps) {
         const file = files?.[0];
 
         if (file) {
-            if (verify) {
+            if (!verify) {
                 let min = {
                     width: 600,
                     height: 600
