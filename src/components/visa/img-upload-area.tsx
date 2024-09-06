@@ -35,35 +35,35 @@ export default function ImgUploadArea({ name, verify }: ImgUploadAreaProps) {
 
         if (file) {
             /* face recognition */
-            // if (verify) {
-            //     let min = {
-            //         width: 600,
-            //         height: 600
-            //     };
-            //     let max = {
-            //         width: 1200,
-            //         height: 1200
-            //     };
+            if (verify) {
+                let min = {
+                    width: 600,
+                    height: 600
+                };
+                let max = {
+                    width: 1200,
+                    height: 1200
+                };
 
-            //     const validImage = await validateImageResolutions(file, min, max);
-            //     if (validImage?.error) {
-            //         return notifyActions.open({
-            //             type: 'info',
-            //             message: validImage.error
-            //         });
-            //     }
+                const validImage = await validateImageResolutions(file, min, max);
+                if (validImage?.error) {
+                    return notifyActions.open({
+                        type: 'info',
+                        message: validImage.error
+                    });
+                }
 
-            //     const form = new FormData();
-            //     form.append('file', file);
+                const form = new FormData();
+                form.append('file', file);
 
-            //     const verified = await verifyImage(form);
-            //     if (verified?.data?.status !== 200) {
-            //         return notifyActions.open({
-            //             type: 'failed',
-            //             message: 'failed to verify uploaded image'
-            //         });
-            //     }
-            // }
+                const verified = await verifyImage(form);
+                if (verified?.data?.status !== 200) {
+                    return notifyActions.open({
+                        type: 'failed',
+                        message: 'failed to verify uploaded image'
+                    });
+                }
+            }
 
             const form = new FormData();
             form.append('file', file);
