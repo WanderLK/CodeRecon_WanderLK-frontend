@@ -10,6 +10,14 @@ export const passportValidationSchema = Yup.object().shape({
     // proofOfAccommodation: Yup.string().required('Proof of Accommodation is required')
 });
 
+export const passportInitialValues = {
+    passportNumber: '',
+    passportIssueDate: '',
+    passportIssueAuthority: '',
+    passportExpiryDate: ''
+    // proofOfAccommodation: ''
+};
+
 export default function PassportDetails() {
     return (
         <Fragment>

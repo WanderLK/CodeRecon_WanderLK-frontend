@@ -5,13 +5,19 @@ import { CheckIcon } from '@/components/icons/check-icon';
 interface PhotoReviewSectionProps {
     currentStep: number;
     photoSrc: string;
+    showGuide?: boolean;
 }
 
-export default function PhotoReviewSection({ currentStep, photoSrc }: PhotoReviewSectionProps) {
+export default function PhotoReviewSection({
+    currentStep,
+    photoSrc,
+    showGuide
+}: PhotoReviewSectionProps) {
     return (
         <Fragment>
             <div className="photo-review-section">
-                <h2 className="text-lg font-medium pb-4">Your Photo</h2>
+                <h2 className={`text-lg font-medium pb-4 ${showGuide ? '' : 'hidden'}
+                    `}>Your Photo</h2>
                 <div className="w-full pb-2">
                     <Image
                         alt="Uploaded Photo"
@@ -40,24 +46,30 @@ export default function PhotoReviewSection({ currentStep, photoSrc }: PhotoRevie
                         </div>
                     </div>
 
-                    <h2 className="text-lg font-medium pt-6 pb-4">How to take good photos</h2>
+                    {showGuide && (
+                        <>
+                            <h2 className="text-lg font-medium pt-6 pb-4">
+                                How to take good photos
+                            </h2>
 
-                    <div className="w-full pb-2">
-                        <Image
-                            alt="Upload Guide"
-                            className="object-contain w-full mx-auto mb-1 aspect-square"
-                            shadow="none"
-                            src="/images/upload-guide.png"
-                            width="100%"
-                        />
-                    </div>
+                            <div className="w-full pb-2">
+                                <Image
+                                    alt="Upload Guide"
+                                    className="object-contain w-full mx-auto mb-1 aspect-square"
+                                    shadow="none"
+                                    src="/images/upload-guide.png"
+                                    width="100%"
+                                />
+                            </div>
 
-                    <h3 className="text-lg font-medium pb-2">Quality</h3>
-                    <p>
-                        Our team of experts will review your photo and make sure it meets all the
-                        necessary criteria for your passport, so you can have peace of mind knowing
-                        your photo will be accepted.
-                    </p>
+                            <h3 className="text-lg font-medium pb-2">Quality</h3>
+                            <p>
+                                Our team of experts will review your photo and make sure it meets
+                                all the necessary criteria for your passport, so you can have peace
+                                of mind knowing your photo will be accepted.
+                            </p>
+                        </>
+                    )}
                 </div>
             </div>
         </Fragment>
