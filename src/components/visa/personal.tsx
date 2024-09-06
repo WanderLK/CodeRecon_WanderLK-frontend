@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 
 export const personalValidationSchema = Yup.object().shape({
     fullName: Yup.string().required('First Name is required'),
-    dob: Yup.string().required('Date of Birth is required'),
+    dateOfBirth: Yup.string().required('Date of Birth is required'),
     placeOfBirth: Yup.string().required('Place of Birth is required'),
     countryOfBirth: Yup.string().required('Country of Birth is required'),
     currentNationality: Yup.string().required('Current Nationality is required'),
@@ -15,7 +15,7 @@ export const personalValidationSchema = Yup.object().shape({
 });
 
 export const personalInitialValues = {
-    dob: '',
+    dateOfBirth: '',
     placeOfBirth: '',
     countryOfBirth: '',
     currentNationality: '',
