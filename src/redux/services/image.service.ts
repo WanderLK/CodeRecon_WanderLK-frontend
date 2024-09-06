@@ -6,10 +6,10 @@ const imageService = createApi({
     baseQuery: baseQuery,
     tagTypes: ['Image'],
     endpoints: (builder) => ({
-        verify: builder.mutation({
+        upload: builder.mutation({
             query: (body) => ({
                 method: 'POST',
-                url: `/upload`,
+                url: `/image/upload`,
                 body
             }),
             invalidatesTags: ['Image']

@@ -6,6 +6,7 @@ import imageService from '@/redux/services/image.service';
 import { notifyActions } from '@/redux/reducers/notify.reducer';
 import verifierService from '@/redux/services/verifier.service';
 import { useFormikContext } from 'formik';
+import { imageToBase64, validateImageResolutions } from '@/utils/image';
 
 interface ImgUploadAreaProps {
     name: string;
@@ -23,7 +24,7 @@ export default function ImgUploadArea({ name, verify }: ImgUploadAreaProps) {
     const [
         uploadImage,
         { isLoading: isUploading, isError: isUploadImageError, error: uploadImageError }
-    ] = imageService.useVerifyMutation();
+    ] = imageService.useUploadMutation();
     useErrorHandler(isUploadImageError, uploadImageError);
 
     const onImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -32,6 +33,23 @@ export default function ImgUploadArea({ name, verify }: ImgUploadAreaProps) {
 
         if (file) {
             if (verify) {
+                let min = {
+                    width: 600,
+                    height: 600
+                };
+                let max = {
+                    width: 1200,
+                    height: 1200
+                };
+
+                const validImage = await validateImageResolutions(file, min, max);
+                if (validImage?.error) {
+                    return notifyActions.open({
+                        type: 'info',
+                        message: validImage.error
+                    });
+                }
+
                 const form = new FormData();
                 form.append('file', file);
 
@@ -46,7 +64,9 @@ export default function ImgUploadArea({ name, verify }: ImgUploadAreaProps) {
 
             const imageUrl = await imageToBase64(file);
             setFieldValue(name, imageUrl);
-            // const result = uploadImage(imageUrl)
+            const result = await uploadImage(imageUrl);
+
+            console.log(result);
         }
     };
 

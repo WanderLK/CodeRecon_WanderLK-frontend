@@ -18,7 +18,8 @@ import { duration } from 'moment';
 import useErrorHandler from '@/components/hooks/error-handler';
 import visaService from '@/redux/services/visa.service';
 import { notifyActions } from '@/redux/reducers/notify.reducer';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { IRootState } from '@/redux';
 
 // const validationSchema = Yup.object().shape({
 //     fullName: Yup.string().required('First Name is required'),
@@ -108,6 +109,7 @@ const travelHistoryValidationSchema = Yup.object().shape({
 
 export default function Request() {
     const dispatch = useDispatch();
+    const { user } = useSelector((state: IRootState) => state.user);
 
     const [
         createVisa,
@@ -169,7 +171,10 @@ export default function Request() {
         if (currentStep === steps.length - 1) {
             // TODO submit the form
 
-            const result = await createVisa(values);
+            const result = await createVisa({
+                userId: user.id,
+                ...values
+            });
             console.log('Form submitted');
 
             if (result?.data?.status === 200) {
