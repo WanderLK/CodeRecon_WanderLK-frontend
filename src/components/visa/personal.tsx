@@ -9,8 +9,8 @@ export const personalValidationSchema = Yup.object().shape({
     dob: Yup.string().required('Date of Birth is required'),
     placeOfBirth: Yup.string().required('Place of Birth is required'),
     countryOfBirth: Yup.string().required('Country of Birth is required'),
-    nationality: Yup.string().required('Current Nationality is required'),
-    sex: Yup.string().required('Sex is required'),
+    currentNationality: Yup.string().required('Current Nationality is required'),
+    gender: Yup.string().required('Gender is required'),
     maritalStatus: Yup.string().required('Marital Status is required')
 });
 
@@ -18,8 +18,8 @@ export const personalInitialValues = {
     dob: '',
     placeOfBirth: '',
     countryOfBirth: '',
-    nationality: '',
-    sex: '',
+    currentNationality: '',
+    gender: '',
     maritalStatus: ''
 };
 
@@ -31,7 +31,7 @@ export default function PersonalDetails() {
             <FormInput
                 label="Date of Birth"
                 placeholder="Date of Birth"
-                name="dob"
+                name="dateOfBirth"
                 type="date"
                 isRequired
             />
@@ -54,7 +54,7 @@ export default function PersonalDetails() {
 
             <FormAutoComplete
                 label="Current Nationality"
-                name="nationality"
+                name="currentNationality"
                 defaultItems={countries.map((country) => ({
                     value: country.label,
                     label: country.label
@@ -62,8 +62,8 @@ export default function PersonalDetails() {
             />
 
             <FormAutoComplete
-                label="Sex"
-                name="sex"
+                label="Gender"
+                name="gender"
                 defaultItems={[
                     { value: 'male', label: 'Male' },
                     { value: 'female', label: 'Female' },

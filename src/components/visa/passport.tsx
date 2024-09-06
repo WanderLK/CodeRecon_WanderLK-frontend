@@ -3,10 +3,10 @@ import FormInput from '../form/input';
 import * as Yup from 'yup';
 
 export const passportValidationSchema = Yup.object().shape({
-    passportNo: Yup.string().required('Passport Number is required'),
-    dateOfIssue: Yup.string().required('Date of Issue is required'),
-    issuingAuthority: Yup.string().required('Issuing Authority is required'),
-    dateOfExpiration: Yup.string().required('Date of Expiration is required')
+    passportNumber: Yup.string().required('Passport Number is required'),
+    passportIssueDate: Yup.string().required('Date of Issue is required'),
+    passportIssueAuthority: Yup.string().required('Issuing Authority is required'),
+    passportExpiryDate: Yup.string().required('Date of Expiration is required')
     // proofOfAccommodation: Yup.string().required('Proof of Accommodation is required')
 });
 
@@ -16,7 +16,7 @@ export default function PassportDetails() {
             <FormInput
                 label="Passport No"
                 placeholder="Passport No"
-                name="passportNo"
+                name="passportNumber"
                 type="number"
                 isRequired
             />
@@ -24,7 +24,7 @@ export default function PassportDetails() {
             <FormInput
                 label="Date of Issue"
                 placeholder="Date of Issue"
-                name="dateOfIssue"
+                name="passportIssueDate"
                 type="date"
                 isRequired
             />
@@ -32,14 +32,14 @@ export default function PassportDetails() {
             <FormInput
                 label="Issuing Authority"
                 placeholder="Issuing Authority"
-                name="issuingAuthority"
+                name="passportIssueAuthority"
                 isRequired
             />
 
             <FormInput
                 label="Date of Expiration"
                 placeholder="Date of Expiration"
-                name="dateOfExpiration"
+                name="passportExpiryDate"
                 type="date"
                 isRequired
             />

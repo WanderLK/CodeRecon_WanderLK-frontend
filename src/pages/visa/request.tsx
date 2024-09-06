@@ -24,23 +24,71 @@ import PersonalImageDetails from '@/components/visa/personal-image';
 //     countryOfBirth: Yup.string().required('Country of Birth is required')
 // });
 
+// {
+//     "id": "string",
+//     "userID": "string",
+//     "dateOfApplied": "string",
+//     "dateOfRequested": "string",
+//     "dateOfIssued": "string",
+//     "country": "string",
+//     "visaType": "string",
+//     "reason": "string",
+//     "fullName": "string",
+//     "dateOfBirth": "2024-09-06",
+//     "placeOfBirth": "string",
+//     "countryOfBirth": "string",
+//     "currentNationality": "string",
+//     "gender": "string",
+//     "maritalStatus": "string",
+//     "photo": "string",
+//     "photoValidation": {
+//       "aspectRatio": true,
+//       "adjustedSize": true,
+//       "resolution": true,
+//       "recognize": true,
+//       "orientation": true
+//     },
+//     "passportPhoto": "string",
+//     "passportNumber": "string",
+//     "passportIssueDate": "string",
+//     "passportExpiryDate": "string",
+//     "passportIssueAuthority": "string",
+//     "accommodationProof": "string",
+//     "returnPermit": "string",
+//     "visaProcessStatus": {
+//       "id": "string",
+//       "receivedEmbassy": "string",
+//       "reviewingApplication": "string",
+//       "personalDetailsVerification": "string",
+//       "imageVerification": "string",
+//       "passportVerification": "string",
+//       "accommodationProofVerification": "string",
+//       "returnPermitVerification": "string",
+//       "visaRequestApproval": "string",
+//       "visaProcessing": "string",
+//       "visaProcessCompleted":"string"
+//    }
+//   }
+
 const initialValues = {
     country: '',
     visaType: '',
     reason: '',
-    dob: '',
+    fullName: '',
+    dateOfBirth: '',
     placeOfBirth: '',
     countryOfBirth: '',
     nationality: '',
-    sex: '',
+    gender: '',
     maritalStatus: '',
-    personalPhoto: '',
+    photo: '',
+    // personalPhoto: '',
     passportPhoto: '',
-    passportNo: '',
-    dateOfIssue: '',
-    issuingAuthority: '',
-    dateOfExpiration: '',
-    proofOfAccommodation: '',
+    passportNumber: '',
+    passportIssueDate: '',
+    passportIssueAuthority: '',
+    passportExpiryDate: '',
+    accommodationProof: '',
     validPermitToReturn: ''
 };
 
@@ -251,12 +299,12 @@ export default function App() {
                                             <h2 className="text-lg font-medium pb-4">
                                                 Proof of Accommodation
                                             </h2>
-                                            <ImgUploadArea name="proofOfAccommodation" />
+                                            <ImgUploadArea name="accommodationProof" />
 
                                             <h2 className="text-lg font-medium pt-4 pb-4">
                                                 Valid permit to return
                                             </h2>
-                                            <ImgUploadArea name="validPermitToReturn" />
+                                            <ImgUploadArea name="returnPermit" />
                                         </div>
 
                                         <div
