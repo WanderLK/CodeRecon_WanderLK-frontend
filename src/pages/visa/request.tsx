@@ -24,6 +24,26 @@ import PersonalImageDetails from '@/components/visa/personal-image';
 //     countryOfBirth: Yup.string().required('Country of Birth is required')
 // });
 
+const initialValues = {
+    country: '',
+    visaType: '',
+    reason: '',
+    dob: '',
+    placeOfBirth: '',
+    countryOfBirth: '',
+    nationality: '',
+    sex: '',
+    maritalStatus: '',
+    personalPhoto: '',
+    passportPhoto: '',
+    passportNo: '',
+    dateOfIssue: '',
+    issuingAuthority: '',
+    dateOfExpiration: '',
+    proofOfAccommodation: '',
+    validPermitToReturn: ''
+};
+
 export default function App() {
     const steps = [
         {
@@ -67,15 +87,6 @@ export default function App() {
             default:
                 return Yup.object().shape({});
         }
-    };
-
-    const initialValues = {
-        country: '',
-        visaType: '',
-        reason: '',
-        dob: '',
-        placeOfBirth: '',
-        countryOfBirth: ''
     };
 
     const onSubmit = async (values: FormikValues) => {

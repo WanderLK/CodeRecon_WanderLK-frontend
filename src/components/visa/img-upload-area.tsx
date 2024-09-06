@@ -1,11 +1,20 @@
 import { Fragment } from 'react/jsx-runtime';
 import { Button, Image } from '@nextui-org/react';
+import { ChangeEvent } from 'react';
 
 interface ImgUploadAreaProps {
     name: string;
 }
 
 export default function ImgUploadArea({ name }: ImgUploadAreaProps) {
+    const onImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
+        const files = e.target.files;
+        const file = files?.[0];
+
+        if (file) {
+        }
+    };
+
     return (
         <Fragment>
             <div className="flex flex-col gap-4 w-full pb-4">
@@ -24,7 +33,13 @@ export default function ImgUploadArea({ name }: ImgUploadAreaProps) {
                     </div>
                     <div className="text-[9px] opacity-70 mt-1">Supports: PNG, JPG, JPEG </div>
                 </label>
-                <input type="file" id={name} name={name} className="hidden" />{' '}
+                <input
+                    type="file"
+                    id={name}
+                    name={name}
+                    className="hidden"
+                    onChange={onImageUpload}
+                />
             </div>
             <Button className={`bg-white text-black rounded-[30px] w-full font-medium py-4 px-2`}>
                 Upload Image

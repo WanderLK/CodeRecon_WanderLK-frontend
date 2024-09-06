@@ -14,7 +14,14 @@ export const personalValidationSchema = Yup.object().shape({
     maritalStatus: Yup.string().required('Marital Status is required')
 });
 
-export const personalInitialValues = {};
+export const personalInitialValues = {
+    dob: '',
+    placeOfBirth: '',
+    countryOfBirth: '',
+    nationality: '',
+    sex: '',
+    maritalStatus: ''
+};
 
 export default function PersonalDetails() {
     return (
