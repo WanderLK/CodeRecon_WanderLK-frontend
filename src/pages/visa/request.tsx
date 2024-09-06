@@ -3,6 +3,7 @@ import { Button, Card, CardBody } from '@nextui-org/react';
 import { SetStateAction, useState } from 'react';
 
 import Form from '@/components/form';
+import FormEditor from '@/components/form/editor';
 import SubmitButton from '@/components/form/button';
 import CountryDetails, { countryValidationSchema } from '@/components/visa/country';
 import PersonalDetails, { personalValidationSchema } from '@/components/visa/personal';
@@ -13,6 +14,7 @@ import PhotoReviewSection from '@/components/visa/img-compatability-test';
 import ImgUploadArea from '@/components/visa/img-upload-area';
 import PassportDetails, { passportValidationSchema } from '@/components/visa/passport';
 import PersonalImageDetails from '@/components/visa/personal-image';
+import { duration } from 'moment';
 import useErrorHandler from '@/components/hooks/error-handler';
 import visaService from '@/redux/services/visa.service';
 import { notifyActions } from '@/redux/reducers/notify.reducer';
@@ -75,6 +77,8 @@ import { useDispatch } from 'react-redux';
 //   }
 
 const initialValues = {
+    dateOfRequested: '',
+    duration: '',
     country: '',
     visaType: '',
     reason: '',
@@ -82,7 +86,7 @@ const initialValues = {
     dateOfBirth: '',
     placeOfBirth: '',
     countryOfBirth: '',
-    nationality: '',
+    currentNationality: '',
     gender: '',
     maritalStatus: '',
     photo: '',
@@ -93,8 +97,14 @@ const initialValues = {
     passportIssueAuthority: '',
     passportExpiryDate: '',
     accommodationProof: '',
-    validPermitToReturn: ''
+    validPermitToReturn: '',
+    travelHistory: ''
 };
+
+// validation for travel history mixed
+const travelHistoryValidationSchema = Yup.object().shape({
+    travelHistory: Yup.mixed().required('Travel History is required')
+});
 
 export default function Request() {
     const dispatch = useDispatch();
@@ -143,7 +153,9 @@ export default function Request() {
             case 1:
                 return personalValidationSchema;
             case 2:
-                return passportValidationSchema;
+                if (currentImgSectionStep === 2) return passportValidationSchema;
+                if (currentImgSectionStep === 3) return travelHistoryValidationSchema;
+                return Yup.object().shape({});
             case 3:
                 return combinedValidationSchema;
             default:
@@ -328,6 +340,17 @@ export default function Request() {
                                                 Valid permit to return
                                             </h2>
                                             <ImgUploadArea name="returnPermit" />
+
+                                            <h2 className="text-lg font-medium pt-4 pb-4">
+                                                Travel History in past 12 Months
+                                            </h2>
+
+                                            <div className="flex flex-col gap-3">
+                                                {/* <div className="min-h-44"> */}
+                                                <div className="min-h-0">
+                                                    <FormEditor name="travelHistory" />
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div

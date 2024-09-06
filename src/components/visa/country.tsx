@@ -7,13 +7,17 @@ import * as Yup from 'yup';
 export const countryValidationSchema = Yup.object().shape({
     country: Yup.string().required('Country is required'),
     visaType: Yup.string().required('Visa Type is required'),
-    reason: Yup.string().required('Reason is required')
+    reason: Yup.string().required('Reason is required'),
+    dateOfRequested: Yup.string().required('Date of Requested is required'),
+    duration: Yup.string().required('Duration is required')
 });
 
 export const countryInitialValues = {
     country: '',
     visaType: '',
-    reason: ''
+    reason: '',
+    dateOfRequested: '',
+    duration: ''
 };
 
 export default function CountryDetails() {
@@ -47,6 +51,22 @@ export default function CountryDetails() {
                 name="reason"
                 isRequired
                 lightMode
+            />
+
+            <FormInput
+                label="Date of Requested"
+                placeholder="Date of Requested"
+                name="dateOfRequested"
+                type="text"
+                isRequired
+            />
+
+            <FormInput
+                label="Duration"
+                placeholder="Duration"
+                name="duration"
+                type="text"
+                isRequired
             />
         </Fragment>
     );
