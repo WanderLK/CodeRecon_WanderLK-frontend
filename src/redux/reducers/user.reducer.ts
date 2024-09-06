@@ -22,7 +22,7 @@ const initState: userStateProps = {
     loading: true,
     logged: true,
     user: {
-        id: '',
+        id: '66daa8d5944fec1a330f5079',
         email: '',
         firstName: '',
         lastName: '',

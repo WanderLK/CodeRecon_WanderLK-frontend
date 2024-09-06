@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 
 export const feedbackValidationSchema = Yup.object().shape({
-    feedback: Yup.string().required('Feedback is required')
+    feedback: Yup.mixed().required('Feedback is required')
 });
 
 export const countries = [

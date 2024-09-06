@@ -1,3 +1,37 @@
+// {
+//     "compilerOptions": {
+//         "target": "ES2020",
+//         "useDefineForClassFields": true,
+//         "lib": [
+//             "ES2020",
+//             "DOM",
+//             "DOM.Iterable"
+//         ],
+//         "module": "ESNext",
+//         "skipLibCheck": true,
+//         /* Bundler mode */
+//         "moduleResolution": "bundler",
+//         "allowImportingTsExtensions": true,
+//         "resolveJsonModule": true,
+//         "isolatedModules": true,
+//         "moduleDetection": "force",
+//         "noEmit": true,
+//         "jsx": "react-jsx",
+//         /* Linting */
+//         "strict": false,
+//         "noUnusedLocals": true,
+//         "noUnusedParameters": true,
+//         "noFallthroughCasesInSwitch": true,
+//         "paths": {
+//             "@/*": [
+//                 "./src/*"
+//             ]
+//         }
+//     },
+//     "include": [
+//         "src"
+//     ]
+// }
 {
     "compilerOptions": {
         "target": "ES2020",
@@ -10,17 +44,19 @@
         "allowImportingTsExtensions": true,
         "resolveJsonModule": true,
         "isolatedModules": true,
-        "moduleDetection": "force",
         "noEmit": true,
         "jsx": "react-jsx",
         /* Linting */
-        "strict": true,
+        "strict": false,
+        "noImplicitAny": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
+        "forceConsistentCasingInFileNames": false,
         "paths": {
             "@/*": ["./src/*"]
         }
     },
-    "include": ["src"]
+    "include": ["src", "**/*.ts", "**/*.tsx"],
+    "exclude": ["node_modules"]
 }

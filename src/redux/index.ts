@@ -6,6 +6,8 @@ import modelReducer from './reducers/model.reducer';
 import visaReducer from './reducers/visa.reducer';
 
 import visaService from './services/visa.service';
+import imageService from './services/image.service';
+import verifierService from './services/verifier.service';
 
 const store = configureStore({
     reducer: combineReducers({
@@ -13,9 +15,15 @@ const store = configureStore({
         notify: notifyReducer,
         model: modelReducer,
         visa: visaReducer,
-        [visaService.reducerPath]: visaService.reducer
+        [visaService.reducerPath]: visaService.reducer,
+        [imageService.reducerPath]: imageService.reducer,
+        [verifierService.reducerPath]: verifierService.reducer
     }),
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(visaService.middleware)
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware()
+            .concat(visaService.middleware)
+            .concat(imageService.middleware)
+            .concat(verifierService.middleware)
 });
 
 export default store;

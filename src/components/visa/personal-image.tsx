@@ -7,7 +7,7 @@ export default function PersonalImageDetails() {
         <Fragment>
             <h2 className="text-lg font-medium pb-4">Upload Image</h2>
 
-            <ImgUploadArea name="photo" />
+            <ImgUploadArea name="photo" verify />
 
             <h2 className="text-lg font-medium pt-6 pb-4">How to take good photos</h2>
 

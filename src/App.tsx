@@ -1,13 +1,16 @@
-import { Fragment } from 'react/jsx-runtime';
+import reduxStore from '@/redux';
+import { Provider } from 'react-redux';
+import NotifyContainer from './components/notify';
 import DashboardRoutes from './routes/dashboard';
 import HomeRoutes from './routes/home';
 
 function App() {
     return (
-        <Fragment>
+        <Provider store={reduxStore}>
             <HomeRoutes />
             <DashboardRoutes />
-        </Fragment>
+            <NotifyContainer />
+        </Provider>
     );
 }
 

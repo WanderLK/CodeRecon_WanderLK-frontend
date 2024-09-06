@@ -13,6 +13,10 @@ import PhotoReviewSection from '@/components/visa/img-compatability-test';
 import ImgUploadArea from '@/components/visa/img-upload-area';
 import PassportDetails, { passportValidationSchema } from '@/components/visa/passport';
 import PersonalImageDetails from '@/components/visa/personal-image';
+import useErrorHandler from '@/components/hooks/error-handler';
+import visaService from '@/redux/services/visa.service';
+import { notifyActions } from '@/redux/reducers/notify.reducer';
+import { useDispatch } from 'react-redux';
 
 // const validationSchema = Yup.object().shape({
 //     fullName: Yup.string().required('First Name is required'),
@@ -92,7 +96,17 @@ const initialValues = {
     validPermitToReturn: ''
 };
 
-export default function App() {
+export default function Request() {
+    const dispatch = useDispatch();
+
+    const [
+        createVisa,
+        { isLoading: isCreating, isError: isIsCreatingError, error: isCreatingError }
+    ] = visaService.useCreateMutation();
+    useErrorHandler(isIsCreatingError, isCreatingError);
+    const [currentStep, setCurrentStep] = useState(0);
+    const [currentImgSectionStep, setCurrentImgSectionStep] = useState(0);
+
     const steps = [
         {
             title: 'Step 1',
@@ -139,9 +153,21 @@ export default function App() {
 
     const onSubmit = async (values: FormikValues) => {
         console.log(values);
+
         if (currentStep === steps.length - 1) {
             // TODO submit the form
+
+            const result = await createVisa(values);
             console.log('Form submitted');
+
+            if (result?.data?.status === 200) {
+                dispatch(
+                    notifyActions.open({
+                        type: 'success',
+                        message: result.data.message
+                    })
+                );
+            }
         } else {
             // if img & doc section and not last ImgSectionStep
             if (currentStep === 2 && currentImgSectionStep < 3) {
@@ -154,9 +180,6 @@ export default function App() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
-
-    const [currentStep, setCurrentStep] = useState(0);
-    const [currentImgSectionStep, setCurrentImgSectionStep] = useState(0);
 
     const imgSectionSteps = 4;
     const nextImgSectionStep = () => {
