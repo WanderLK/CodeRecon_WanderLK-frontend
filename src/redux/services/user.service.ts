@@ -13,6 +13,14 @@ const authServices = createApi({
                 body: props
             }),
             invalidatesTags: ['AuthSignIn']
+        }),
+        signOut: builder.mutation({
+            query: (props) => ({
+                method: 'DELETE',
+                url: `/logout`,
+                body: props
+            }),
+            invalidatesTags: ['AuthSignIn']
         })
     })
 });

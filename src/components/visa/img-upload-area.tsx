@@ -5,7 +5,7 @@ import useErrorHandler from '../hooks/error-handler';
 import imageService from '@/redux/services/image.service';
 import { notifyActions } from '@/redux/reducers/notify.reducer';
 import verifierService from '@/redux/services/verifier.service';
-import { useFormikContext } from 'formik';
+import { useField, useFormikContext } from 'formik';
 import { imageToBase64, validateImageResolutions } from '@/utils/image';
 
 interface ImgUploadAreaProps {
@@ -14,6 +14,8 @@ interface ImgUploadAreaProps {
 }
 
 export default function ImgUploadArea({ name, verify }: ImgUploadAreaProps) {
+    const [field] = useField(name);
+
     const { setFieldValue } = useFormikContext();
     const [
         verifyImage,
@@ -32,41 +34,45 @@ export default function ImgUploadArea({ name, verify }: ImgUploadAreaProps) {
         const file = files?.[0];
 
         if (file) {
-            if (!verify) {
-                let min = {
-                    width: 600,
-                    height: 600
-                };
-                let max = {
-                    width: 1200,
-                    height: 1200
-                };
+            /* face recognition */
+            // if (verify) {
+            //     let min = {
+            //         width: 600,
+            //         height: 600
+            //     };
+            //     let max = {
+            //         width: 1200,
+            //         height: 1200
+            //     };
 
-                const validImage = await validateImageResolutions(file, min, max);
-                if (validImage?.error) {
-                    return notifyActions.open({
-                        type: 'info',
-                        message: validImage.error
-                    });
-                }
+            //     const validImage = await validateImageResolutions(file, min, max);
+            //     if (validImage?.error) {
+            //         return notifyActions.open({
+            //             type: 'info',
+            //             message: validImage.error
+            //         });
+            //     }
 
-                const form = new FormData();
-                form.append('file', file);
+            //     const form = new FormData();
+            //     form.append('file', file);
 
-                const verified = await verifyImage(form);
-                if (verified?.data?.status !== 200) {
-                    return notifyActions.open({
-                        type: 'failed',
-                        message: 'failed to verify uploaded image'
-                    });
-                }
+            //     const verified = await verifyImage(form);
+            //     if (verified?.data?.status !== 200) {
+            //         return notifyActions.open({
+            //             type: 'failed',
+            //             message: 'failed to verify uploaded image'
+            //         });
+            //     }
+            // }
+
+            const form = new FormData();
+            form.append('file', file);
+
+            const result = await uploadImage(form);
+
+            if (result.data.url) {
+                setFieldValue(name, result.data.url);
             }
-
-            const imageUrl = await imageToBase64(file);
-            setFieldValue(name, imageUrl);
-            const result = await uploadImage(imageUrl);
-
-            console.log(result);
         }
     };
 
@@ -80,12 +86,9 @@ export default function ImgUploadArea({ name, verify }: ImgUploadAreaProps) {
                         alt="Upload Image Icon"
                         className="object-cover px-2 w-5/6 mx-auto mb-1"
                         shadow="none"
-                        src="/images/upload-img-ico.png"
+                        src={field?.value ? field.value : '/images/upload-img-ico.png'}
                         width="100%"
                     />
-                    <div className="text-xs">
-                        Drop your image here, or <span className="text-cyan-700">browse</span>
-                    </div>
                     <div className="text-[9px] opacity-70 mt-1">Supports: PNG, JPG, JPEG </div>
                 </label>
                 <input
@@ -96,9 +99,9 @@ export default function ImgUploadArea({ name, verify }: ImgUploadAreaProps) {
                     onChange={onImageUpload}
                 />
             </div>
-            <Button className={`bg-white text-black rounded-[30px] w-full font-medium py-4 px-2`}>
+            {/* <Button className={`bg-white text-black rounded-[30px] w-full font-medium py-4 px-2`}>
                 Upload Image
-            </Button>
+            </Button> */}
         </Fragment>
     );
 }

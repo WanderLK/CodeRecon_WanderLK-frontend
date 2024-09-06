@@ -172,8 +172,8 @@ export default function Request() {
             // TODO submit the form
 
             const result = await createVisa({
-                userId: user.id,
-                ...values
+                ...values,
+                userId: user.id
             });
             console.log('Form submitted');
 
@@ -379,6 +379,7 @@ export default function Request() {
 
                                     <div className="flex justify-center w-full mt-4">
                                         <SubmitButton
+                                            isLoading={isCreating}
                                             type="submit"
                                             className={`bg-white text-black rounded-[30px] font-medium py-4 px-2 w-full max-w-none`}>
                                             {currentStep === steps.length - 1

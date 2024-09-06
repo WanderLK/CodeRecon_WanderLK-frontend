@@ -9,7 +9,7 @@ const imageService = createApi({
         upload: builder.mutation({
             query: (body) => ({
                 method: 'POST',
-                url: `/image/upload`,
+                url: `/images/upload`,
                 body
             }),
             invalidatesTags: ['Image']

@@ -9,7 +9,7 @@ const visaService = createApi({
         create: builder.mutation({
             query: (body) => ({
                 method: 'POST',
-                url: `/visa`,
+                url: `/visa/create`,
                 body
             }),
             invalidatesTags: ['Visas']

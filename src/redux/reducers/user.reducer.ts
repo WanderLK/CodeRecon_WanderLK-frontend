@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getCookie } from 'cookies-next';
+import { deleteCookie, getCookie } from 'cookies-next';
 
 interface userProps {
     id: string;
@@ -56,6 +56,7 @@ const userSlice = createSlice({
                 image: ''
             };
 
+            deleteCookie('token');
             window.location.assign('/');
         }
     }
