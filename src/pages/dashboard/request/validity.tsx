@@ -27,7 +27,6 @@ export default function RequestValidity() {
                 initialValues={proofInitialValues}
                 onSubmit={onSubmit}
                 className="flex flex-col gap-4 w-full">
-
                 <Image
                     alt="Passport Image"
                     className="object-contain px-2 max-w-96 mb-2 mx-auto"

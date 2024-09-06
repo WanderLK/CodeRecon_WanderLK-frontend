@@ -16,8 +16,11 @@ export default function PhotoReviewSection({
     return (
         <Fragment>
             <div className="photo-review-section">
-                <h2 className={`text-lg font-medium pb-4 ${showGuide ? '' : 'hidden'}
-                    `}>Your Photo</h2>
+                <h2
+                    className={`text-lg font-medium pb-4 ${showGuide ? '' : 'hidden'}
+                    `}>
+                    Your Photo
+                </h2>
                 <div className="w-full pb-2">
                     <Image
                         alt="Uploaded Photo"

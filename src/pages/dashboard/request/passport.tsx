@@ -28,7 +28,6 @@ export default function RequestPassport() {
                 initialValues={passportInitialValues}
                 onSubmit={onSubmit}
                 className="flex flex-col gap-4 w-full">
-
                 <Image
                     alt="Passport Image"
                     className="object-contain px-2 max-w-96 mb-2"
